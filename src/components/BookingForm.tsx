@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Cookies from "js-cookie";
 
 interface BookingFormData {
   dateRange: [Date | null, Date | null];
@@ -31,15 +32,19 @@ export default function BookingForm() {
   const onSubmit = (data: BookingFormData) => {
     console.log("Booking Data:", data);
 
-    const query = new URLSearchParams({
-      checkIn: data.dateRange[0]?.toISOString() || "",
-      checkOut: data.dateRange[1]?.toISOString() || "",
-      adults: data.adults.toString(),
-      children: data.children.toString(),
-      specialRequests: data.specialRequests || "",
-    }).toString();
+      Cookies.set(
+        "bookingInfo",
+        JSON.stringify({
+          checkIn: data.dateRange[0]?.toISOString() || "",
+          checkOut: data.dateRange[1]?.toISOString() || "",
+          adults: data.adults,
+          children: data.children,
+          specialRequests: data.specialRequests,
+        }),
+        { expires: 7 } 
+      );
 
-    router.push(`/booking/summary?${query}`);
+    router.push(`/booking/summary`);
   };
 
   return (
