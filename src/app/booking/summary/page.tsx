@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { calculatePrice } from "@/utils/calculatePrice"; 
 
 interface BookingInfo {
   checkIn: string;
@@ -21,6 +22,11 @@ interface PersonalDetails {
 
 export default function BookingSummaryPage() {
   const [bookingInfo, setBookingInfo] = useState<BookingInfo | null>(null);
+  const [priceDetails, setPriceDetails] = useState<{
+    totalPrice: number;
+    nights: number;
+    discount: string;
+  } | null>(null); 
 
   const {
     register,
@@ -28,31 +34,47 @@ export default function BookingSummaryPage() {
     formState: { errors },
   } = useForm<PersonalDetails>();
 
+  const router = useRouter();
+
   useEffect(() => {
     const cookieData = Cookies.get("bookingInfo");
     if (cookieData) {
-      setBookingInfo(JSON.parse(cookieData));
+      const parsed = JSON.parse(cookieData);
+      setBookingInfo(parsed);
+
+     
+      if (
+        parsed.checkIn &&
+        parsed.checkOut &&
+        parsed.adults !== undefined &&
+        parsed.children !== undefined
+      ) {
+        const price = calculatePrice({
+          checkIn: new Date(parsed.checkIn),
+          checkOut: new Date(parsed.checkOut),
+          adults: parsed.adults,
+          children: parsed.children,
+        });
+        setPriceDetails(price);
+      }
     }
   }, []);
 
-const router = useRouter();
+  const onSubmit = (data: PersonalDetails) => {
+    const combinedData = {
+      ...bookingInfo,
+      ...data,
+      priceDetails, 
+    };
 
-const onSubmit = (data: PersonalDetails) => {
-  const combinedData = {
-    ...bookingInfo,
-    ...data,
+    console.log("🚀 הזמנה הושלמה:", combinedData);
+
+    Cookies.set("confirmedBooking", JSON.stringify(combinedData), {
+      expires: 7,
+    });
+
+    router.push("/booking/confirmation");
   };
-
-  console.log("🚀 הזמנה הושלמה:", combinedData);
-
-  Cookies.set("confirmedBooking", JSON.stringify(combinedData), {
-    expires: 7,
-  });
-
-  router.push("/booking/confirmation");
-
-
- };
 
   return (
     <main className='flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-10'>
@@ -97,6 +119,15 @@ const onSubmit = (data: PersonalDetails) => {
                   : "אין"}
               </p>
             </div>
+
+            {priceDetails && (
+              <div className='flex justify-between border-b pb-2 mt-2'>
+                <span className='font-semibold text-gray-600'>מחיר משוער:</span>
+                <span>
+                  €{priceDetails.totalPrice} ({priceDetails.discount})
+                </span>
+              </div>
+            )}
           </div>
         ) : (
           <p className='text-red-500 text-center mb-6'>
@@ -153,6 +184,23 @@ const onSubmit = (data: PersonalDetails) => {
           >
             אשר הזמנה
           </button>
+          <div className='mt-6 text-center'>
+            <button
+              type='button'
+              onClick={() => router.push("/booking")}
+              className='bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded text-sm font-semibold'
+            >
+              ערוך הזמנה
+            </button>
+
+            <button
+              type='button'
+              onClick={() => router.push("/")}
+              className='block mt-3 underline text-green-700 hover:text-green-900 text-sm'
+            >
+              חזרה לדף הבית
+            </button>
+          </div>
         </form>
       </div>
     </main>

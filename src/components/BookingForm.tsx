@@ -18,6 +18,7 @@ export default function BookingForm() {
     register,
     handleSubmit,
     control,
+    setError,
     formState: { errors },
   } = useForm<BookingFormData>();
 
@@ -30,19 +31,39 @@ export default function BookingForm() {
   ];
 
   const onSubmit = (data: BookingFormData) => {
+    const adults = Number(data.adults) || 0;
+    const children = Number(data.children) || 0;
+    const totalGuests = adults + children;
+
+    if (adults < 1) {
+      setError("adults", {
+        type: "manual",
+        message: "לפחות מבוגר אחד חייב להיות בהזמנה.",
+      });
+      return;
+    }
+
+    if (totalGuests > 6) {
+      setError("children", {
+        type: "manual",
+        message: 'סה"כ מספר האורחים לא יכול להיות יותר מ-6.',
+      });
+      return;
+    }
+
     console.log("Booking Data:", data);
 
-      Cookies.set(
-        "bookingInfo",
-        JSON.stringify({
-          checkIn: data.dateRange[0]?.toISOString() || "",
-          checkOut: data.dateRange[1]?.toISOString() || "",
-          adults: data.adults,
-          children: data.children,
-          specialRequests: data.specialRequests,
-        }),
-        { expires: 7 } 
-      );
+    Cookies.set(
+      "bookingInfo",
+      JSON.stringify({
+        checkIn: data.dateRange[0]?.toISOString() || "",
+        checkOut: data.dateRange[1]?.toISOString() || "",
+        adults: adults,
+        children: children,
+        specialRequests: data.specialRequests,
+      }),
+      { expires: 7 }
+    );
 
     router.push(`/booking/summary`);
   };
@@ -95,6 +116,7 @@ export default function BookingForm() {
           {...register("adults", { required: "יש לבחור מספר מבוגרים", min: 1 })}
           className='border p-2 w-full rounded'
           min={1}
+          max={6}
           placeholder='הכנס מספר מבוגרים'
         />
         {errors.adults && (
@@ -109,6 +131,7 @@ export default function BookingForm() {
           {...register("children", { required: "יש לבחור מספר ילדים", min: 0 })}
           className='border p-2 w-full rounded'
           min={0}
+          max={6}
           placeholder='הכנס מספר ילדים'
         />
         {errors.children && (
