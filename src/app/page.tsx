@@ -17,7 +17,6 @@ export default function Home() {
       </section>
 
       <section className='max-w-3xl space-y-4'>
-        <h2 className='text-3xl font-bold'>על הווילה</h2>
         <p>
           הווילה שלנו מציעה חווית אירוח ייחודית בלב הטבע. נוף עוצר נשימה, וחדרים
           נוחים שיבטיחו לכם חופשה מושלמת.

@@ -10,7 +10,6 @@ interface BookingFormData {
   dateRange: [Date | null, Date | null];
   adults: number;
   children: number;
-  specialRequests: string;
 }
 
 export default function BookingForm() {
@@ -60,7 +59,6 @@ export default function BookingForm() {
         checkOut: data.dateRange[1]?.toISOString() || "",
         adults: adults,
         children: children,
-        specialRequests: data.specialRequests,
       }),
       { expires: 7 }
     );
@@ -137,16 +135,6 @@ export default function BookingForm() {
         {errors.children && (
           <p className='text-red-500'>{errors.children.message}</p>
         )}
-      </div>
-
-      <div>
-        <label className='block mb-2 font-bold'>בקשות מיוחדות:</label>
-        <textarea
-          {...register("specialRequests")}
-          className='border p-2 w-full rounded'
-          rows={3}
-          placeholder='כאן אפשר לכתוב בקשות מיוחדות...'
-        />
       </div>
 
       <button

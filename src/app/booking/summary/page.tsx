@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { calculatePrice } from "@/utils/calculatePrice"; 
+import { calculatePrice } from "@/utils/calculatePrice";
 
 interface BookingInfo {
   checkIn: string;
@@ -18,6 +18,7 @@ interface PersonalDetails {
   fullName: string;
   phone: string;
   email: string;
+  specialRequests?: string;
 }
 
 export default function BookingSummaryPage() {
@@ -26,7 +27,7 @@ export default function BookingSummaryPage() {
     totalPrice: number;
     nights: number;
     discount: string;
-  } | null>(null); 
+  } | null>(null);
 
   const {
     register,
@@ -42,7 +43,6 @@ export default function BookingSummaryPage() {
       const parsed = JSON.parse(cookieData);
       setBookingInfo(parsed);
 
-     
       if (
         parsed.checkIn &&
         parsed.checkOut &&
@@ -64,7 +64,7 @@ export default function BookingSummaryPage() {
     const combinedData = {
       ...bookingInfo,
       ...data,
-      priceDetails, 
+      priceDetails,
     };
 
     console.log("🚀 הזמנה הושלמה:", combinedData);
@@ -107,17 +107,6 @@ export default function BookingSummaryPage() {
             <div className='flex justify-between border-b pb-2'>
               <span className='font-semibold text-gray-600'>ילדים:</span>
               <span>{bookingInfo.children}</span>
-            </div>
-
-            <div className='border-b pb-2'>
-              <span className='font-semibold text-gray-600 block mb-1'>
-                בקשות מיוחדות:
-              </span>
-              <p className='text-gray-700 whitespace-pre-wrap'>
-                {bookingInfo.specialRequests?.trim() !== ""
-                  ? bookingInfo.specialRequests
-                  : "אין"}
-              </p>
             </div>
 
             {priceDetails && (
@@ -176,6 +165,15 @@ export default function BookingSummaryPage() {
             {errors.email && (
               <p className='text-red-500'>{errors.email.message}</p>
             )}
+          </div>
+          <div>
+            <label className='block mb-2 font-bold'>בקשות מיוחדות:</label>
+            <textarea
+              {...register("specialRequests")}
+              className='border p-2 w-full rounded'
+              rows={3}
+              placeholder='כאן אפשר לכתוב בקשות מיוחדות...'
+            />
           </div>
 
           <button
