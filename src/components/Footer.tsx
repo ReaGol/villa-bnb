@@ -20,7 +20,7 @@ export default function Footer() {
             <FaFacebook />
           </Link>
           <Link
-            href='https://www.instagram.com/YourProfile'
+            href='https://www.instagram.com/goldins_home_greece/?igsh=MWIwZW9xcXRvYzJnOQ%3D%3D&utm_source=qr#'
             target='_blank'
             rel='noopener noreferrer'
             aria-label='Instagram'

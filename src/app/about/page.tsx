@@ -4,7 +4,7 @@ export default function AboutPage() {
   return (
     <main className='p-8 max-w-4xl mx-auto'>
       <section className='mb-10 text-center'>
-        <h1 className='text-4xl font-bold mb-4 text-green-700'>אודות</h1>
+        <h1 className='text-4xl font-bold mb-4'>אודות</h1>
         <p className='text-lg text-gray-700'>
           נופש חלומי ביוון שלא הכרתם – המקום המושלם לחופשה בלתי נשכחת
         </p>
