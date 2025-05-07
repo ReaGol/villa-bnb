@@ -2,9 +2,16 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import DatePicker from "react-datepicker";
+import dynamic from "next/dynamic";
+import type { DatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Cookies from "js-cookie";
+
+const DatePicker = dynamic<DatePickerProps>(
+  () => import("react-datepicker").then((mod) => mod.default as unknown as React.ComponentType<DatePickerProps>),
+  { ssr: false }
+);
+
 
 interface BookingFormData {
   dateRange: [Date | null, Date | null];
