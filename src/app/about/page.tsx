@@ -88,6 +88,7 @@ export default function AboutPage() {
             title='Google Map'
             className='w-full h-full rounded-lg shadow'
             loading='lazy'
+            referrerPolicy='no-referrer-when-downgrade'
           ></iframe>
         </div>
       </section>
