@@ -8,6 +8,7 @@ export default function Navbar() {
       <Link href='/contact'>צור קשר</Link>
       <Link href='/about'>אודות</Link>
       <Link href='/booking'>הזמנה</Link>
+      <Link href='/recommendations'>המלצות</Link>
       <Link href='/admin'>ניהול</Link>
     </nav>
   );

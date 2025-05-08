@@ -38,7 +38,6 @@ export default function GalleryPage() {
     <main className='p-8 max-w-5xl mx-auto flex flex-col min-h-screen'>
       <h1 className='text-4xl font-bold text-center mb-8'>גלריה</h1>
 
-      {/* כפתורים למסכים גדולים */}
       <div className='hidden sm:flex flex-wrap justify-center mb-8 gap-4'>
         {Object.keys(categories).map((category) => (
           <button
@@ -57,7 +56,6 @@ export default function GalleryPage() {
         ))}
       </div>
 
-      {/* Dropdown למסכים קטנים */}
       <div className='sm:hidden mb-8 text-center'>
         <select
           value={selectedCategory}

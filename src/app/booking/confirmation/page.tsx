@@ -30,9 +30,9 @@ export default function BookingConfirmationPage() {
 
   return (
     <main className='flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-10'>
-      <div className='bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg border border-green-400'>
+      <div className='bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg border'>
         <h1 className='text-3xl font-bold text-green-700 mb-6 text-center'>
-          תודה על הזמנתך! ניצור עמך קשר בהקדם 💚
+          תודה על הזמנתך! ניצור עמך קשר בהקדם
         </h1>
 
         {confirmation ? (
