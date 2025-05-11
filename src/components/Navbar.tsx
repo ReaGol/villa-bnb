@@ -1,15 +1,80 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { name: "בית", href: "/" },
+  { name: "אודות", href: "/about" },
+  { name: "הזמנות", href: "/booking" },
+  { name: "המלצות", href: "/recommendations" },
+  { name: "צור קשר", href: "/contact" },
+  { name: "ניהול", href: "/admin" },
+];
 
 export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <nav className='flex justify-center space-x-4 bg-gray-100 p-4 text-lg'>
-      <Link href='/'>בית</Link>
-      <Link href='/gallery'>גלריה</Link>
-      <Link href='/contact'>צור קשר</Link>
-      <Link href='/about'>אודות</Link>
-      <Link href='/booking'>הזמנה</Link>
-      <Link href='/recommendations'>המלצות</Link>
-      <Link href='/admin'>ניהול</Link>
-    </nav>
+    <header className='bg-gray-100 shadow-md'>
+      <div className='max-w-7xl mx-auto px-4 py-4 flex justify-between items-center'>
+        <Link
+          href='/'
+          className='flex items-center space-x-2 rtl:space-x-reverse'
+        >
+          <div className='w-10 h-10 relative rounded-full overflow-hidden'>
+            <Image
+              src='/view_logo.png'
+              alt='לוגו וילה ביוון'
+              fill
+              className='object-cover'
+            />
+          </div>
+          <span
+            className='text-xl text-green-700 md:text-2xl font-bold mr-2 rtl:mr-2'
+            style={{ fontFamily: "var(--font-great-vibes)" }}
+          >
+            Dream Vacation in Greece
+          </span>
+        </Link>
+
+        <nav className='hidden md:flex flex-wrap justify-end gap-x-4'>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className='text-gray-700 hover:text-green-700 font-medium'
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+
+        <button
+          className='md:hidden text-gray-700'
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label='פתח תפריט'
+        >
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+      </div>
+
+      {menuOpen && (
+        <nav className='md:hidden bg-white shadow px-4 py-4 space-y-2 text-right'>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className='block text-gray-700 hover:text-green-700 font-medium'
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </nav>
+      )}
+    </header>
   );
 }
