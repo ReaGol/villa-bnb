@@ -1,4 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import RecommendationCard from "./RecommendationCard";
+import RecommendationForm from "./RecommendationForm";
 
 type Recommendation = {
   name: string;
@@ -6,7 +10,58 @@ type Recommendation = {
   message: string;
 };
 
-const recommendations: Recommendation[] = [
+export default function RecommendationsList() {
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("guest-recommendations");
+    const parsed = saved ? JSON.parse(saved) : [];
+    setRecommendations([...defaultRecommendations, ...parsed]);
+  }, []);
+
+  const handleAdd = (rec: Recommendation) => {
+    const updated = [...recommendations, rec];
+    setRecommendations(updated);
+
+    const guestOnly = updated.slice(defaultRecommendations.length);
+    localStorage.setItem("guest-recommendations", JSON.stringify(guestOnly));
+
+    setShowForm(false);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 4000);
+  };
+
+  return (
+    <div className='space-y-6 relative'>
+      {showSuccess && (
+        <div className='fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded shadow z-50 transition-opacity'>
+          ✅ ההמלצה נשלחה בהצלחה! תודה רבה 💚
+        </div>
+      )}
+
+      <div className='flex justify-center'>
+        <button
+          onClick={() => setShowForm((prev) => !prev)}
+          className='bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-semibold'
+        >
+          {showForm ? "ביטול" : "הוסיפו המלצה"}
+        </button>
+      </div>
+
+      {showForm && <RecommendationForm onAdd={handleAdd} />}
+
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+        {recommendations.map((rec, index) => (
+          <RecommendationCard key={index} recommendation={rec} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const defaultRecommendations: Recommendation[] = [
   {
     name: "Menahem Adoni",
     stars: 5,
@@ -26,6 +81,13 @@ const recommendations: Recommendation[] = [
     message: `בית חלומי במקום חלומי, מכיל כל דבר שנזקקים לו משרוך נעל ועד כלי מיטה מפונפנים.
 
 והנוף... לא תרצו לצאת מהמרפסת! וחבל כי העיירה כיפית, המסעדות נפלאות וחוף הים מושלם.`,
+  },
+  {
+    name: "Ora Avni",
+    stars: 5,
+    message: `התארחנו בדירת נופש מקסימה בפיגאדי, ממש מעל המפרץ עם נוף עוצר נשימה לאי אוויה. הדירה חדשה, מרווחת ומאובזרת בכל מה שצריך לחופשה מושלמת – שני חדרי שינה נוחים, מטבח מצויד לגמרי, וסלון רחב ונעים. מיקום מעולה, במרחק הליכה מהחוף.
+החוויה שלנו הפכה למיוחדת במיוחד בזכות המארחים – אמירם וטילדה, זוג ישראלים מופלאים שמארחים מכל הלב. הם תמיד זמינים, שמחים לעזור ולתת המלצות אישיות לטיולים, חופים נסתרים, מסעדות ופעילויות באזור.
+מושלם למשפחות או לזוגות חברים שמחפשים שקט, נוף ואווירה יוונית אותנטית. פשוט חוויה! מומלץ בחום ❤️`,
   },
   {
     name: "Rachel Avidor",
@@ -56,13 +118,3 @@ const recommendations: Recommendation[] = [
 מומלץ מאוד!`,
   },
 ];
-
-export default function RecommendationsList() {
-  return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
-      {recommendations.map((rec, index) => (
-        <RecommendationCard key={index} recommendation={rec} />
-      ))}
-    </div>
-  );
-}
