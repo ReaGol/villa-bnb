@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -8,7 +7,7 @@ export default function Home() {
         className='w-full bg-cover bg-center relative h-[60vh] flex items-center justify-center'
         style={{ backgroundImage: "url('/villa.jpg')" }}
       >
-        <div className='bg-black/50 text-white p-8 rounded'>
+        <div className='text-white p-8 rounded top-2 transform -translate-y-40'>
           <h1 className='text-4xl md:text-6xl font-bold mb-4'>
             נופש חלומי ביוון שלא הכרתם
           </h1>

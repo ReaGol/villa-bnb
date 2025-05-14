@@ -78,6 +78,7 @@ export default function GalleryPage() {
             key={index}
             className='relative overflow-hidden rounded-lg shadow aspect-[4/3] w-full h-64 sm:h-72 md:h-80'
           >
+            {/* TODO: Add option to enlarge photos (lightbox/modal)  */}
             <Image
               src={imageSrcs[img]}
               alt={`${selectedCategory} ${index + 1}`}
