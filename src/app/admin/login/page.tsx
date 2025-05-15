@@ -26,6 +26,7 @@ export default function AdminLoginPage() {
     });
 
     if (res.ok) {
+      document.cookie = "isAdmin=true; path=/; max-age=3600";
       router.push("/admin");
     } else {
       const result = await res.json();
