@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 
-type BookingFormData = {
+interface BookingFormData {
   fullName: string;
   email: string;
   phone: string;
@@ -11,9 +11,13 @@ type BookingFormData = {
   adults: number;
   children: number;
   specialRequests?: string;
-};
+}
 
-export default function AddBookingForm() {
+interface AddBookingFormProps {
+  onAddBooking: () => void;
+}
+
+export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
   const {
     register,
     handleSubmit,
@@ -29,8 +33,8 @@ export default function AddBookingForm() {
     });
 
     if (res.ok) {
-      alert("ההזמנה נוספה בהצלחה!");
-      reset(); 
+      onAddBooking();
+      reset();
     } else {
       alert("אירעה שגיאה בעת הוספת ההזמנה.");
     }
@@ -41,9 +45,7 @@ export default function AddBookingForm() {
       onSubmit={handleSubmit(onSubmit)}
       className='bg-white border p-6 rounded shadow space-y-4 max-w-xl mx-auto'
     >
-      <h2 className='text-xl font-bold mb-4 text-center'>
-        הוספת הזמנה חדשה
-      </h2>
+      <h2 className='text-xl font-bold mb-4 text-center'>הוספת הזמנה חדשה</h2>
 
       <input
         type='text'
@@ -64,6 +66,7 @@ export default function AddBookingForm() {
       {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
 
       <input
+        dir='rtl'
         type='tel'
         placeholder='טלפון'
         {...register("phone", { required: "יש להזין טלפון" })}

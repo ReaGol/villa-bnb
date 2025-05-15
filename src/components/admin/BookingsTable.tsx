@@ -1,58 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Booking } from "@/types/booking"; 
 
-type Booking = {
-  _id: string;
-  fullName: string;
-  email: string;
-  phone: string;
-  checkIn: string;
-  checkOut: string;
-  adults: number;
-  children: number;
-  specialRequests?: string;
-};
+interface BookingsTableProps {
+  bookings: Booking[];
+  loading: boolean;
+  onDelete: (id: string) => void;
+}
 
-export default function BookingsTable() {
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchBookings();
-  }, []);
-
-  const fetchBookings = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/admin/bookings");
-      const data = await res.json();
-      setBookings(data);
-    } catch (err) {
-      console.error("שגיאה בשליפת הזמנות:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    const confirmed = confirm("האם אתה בטוח שברצונך למחוק את ההזמנה?");
-    if (!confirmed) return;
-
-    try {
-      const res = await fetch(`/api/admin/bookings?id=${id}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setBookings(bookings.filter((b) => b._id !== id));
-      } else {
-        alert("מחיקה נכשלה");
-      }
-    } catch (err) {
-      console.error("שגיאה במחיקה:", err);
-    }
-  };
-
+export default function BookingsTable({
+  bookings,
+  loading,
+  onDelete,
+}: BookingsTableProps) {
   if (loading) return <p className='text-center py-6'>טוען הזמנות...</p>;
 
   if (bookings.length === 0)
@@ -88,7 +48,7 @@ export default function BookingsTable() {
               <td className='p-2'>{b.specialRequests?.trim() || "—"}</td>
               <td className='p-2'>
                 <button
-                  onClick={() => handleDelete(b._id)}
+                  onClick={() => onDelete(b._id)}
                   className='text-red-600 hover:underline'
                 >
                   מחק
