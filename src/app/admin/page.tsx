@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import BookingsTable from "@/components/admin/BookingsTable";
+import AddBookingForm from "@/components/admin/AddBookingForm";
 
 export default function AdminPage() {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -20,10 +22,12 @@ export default function AdminPage() {
 
   return (
     <main className='p-8'>
-      <h1 className='text-3xl font-bold text-green-700 mb-6 text-center'>
+      <h1 className='text-3xl font-bold mb-6 text-center'>
         ברוך הבא לפאנל הניהול
       </h1>
       {/*TODO כרטיסיות ניהול*/}
+      <AddBookingForm />
+      <BookingsTable />
     </main>
   );
 }
