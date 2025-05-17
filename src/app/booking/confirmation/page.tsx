@@ -25,6 +25,8 @@ export default function BookingConfirmationPage() {
     const data = Cookies.get("confirmedBooking");
     if (data) {
       setConfirmation(JSON.parse(data));
+      Cookies.remove("bookingInfo");
+      Cookies.remove("confirmedBooking");
     }
   }, []);
 

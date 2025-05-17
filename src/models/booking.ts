@@ -18,8 +18,8 @@ const BookingSchema = new Schema<Booking>({
   phone: { type: String, required: true },
   checkIn: { type: Date, required: true },
   checkOut: { type: Date, required: true },
-  adults: { type: Number, required: true },
-  children: { type: Number, required: true },
+  adults: { type: Number, required: true, min: 1 },
+  children: { type: Number, required: true, min: 0 },
   specialRequests: { type: String },
   createdAt: { type: Date, default: Date.now },
 });

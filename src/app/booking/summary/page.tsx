@@ -11,7 +11,6 @@ interface BookingInfo {
   checkOut: string;
   adults: number;
   children: number;
-  specialRequests: string;
 }
 
 interface PersonalDetails {
@@ -43,38 +42,63 @@ export default function BookingSummaryPage() {
       const parsed = JSON.parse(cookieData);
       setBookingInfo(parsed);
 
+      const adults = Number(parsed.adults) || 0;
+      const children = Number(parsed.children) || 0;
+      const totalGuests = adults + children;
+
       if (
         parsed.checkIn &&
         parsed.checkOut &&
-        parsed.adults !== undefined &&
-        parsed.children !== undefined
+        totalGuests > 0 &&
+        totalGuests <= 6
       ) {
         const price = calculatePrice({
           checkIn: new Date(parsed.checkIn),
           checkOut: new Date(parsed.checkOut),
-          adults: parsed.adults,
-          children: parsed.children,
+          adults,
+          children,
         });
         setPriceDetails(price);
+      } else if (totalGuests > 6) {
+        console.error("תפוסה מירבית היא 6 אנשים.");
       }
     }
   }, []);
+  
 
-  const onSubmit = (data: PersonalDetails) => {
-    const combinedData = {
-      ...bookingInfo,
-      ...data,
-      priceDetails,
+  const onSubmit = async (data: PersonalDetails) => {
+    
+    const bookingInfo = JSON.parse(Cookies.get("bookingInfo") || "{}");
+
+    const payload = {
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      checkIn: bookingInfo.checkIn,
+      checkOut: bookingInfo.checkOut,
+      adults: bookingInfo.adults,
+      children: bookingInfo.children,
+      specialRequests: data.specialRequests,
     };
 
-    console.log("🚀 הזמנה הושלמה:", combinedData);
-
-    Cookies.set("confirmedBooking", JSON.stringify(combinedData), {
-      expires: 7,
+    const res = await fetch("/api/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     });
 
-    router.push("/booking/confirmation");
+    if (res.ok) {
+      alert("ההזמנה נשלחה בהצלחה!");
+      Cookies.set("confirmedBooking", JSON.stringify(payload), { expires: 7 });
+
+      Cookies.remove("bookingInfo"); 
+      router.push("/booking/confirmation");
+    } else {
+      const result = await res.json();
+      alert(result.message || "שגיאה בשליחת ההזמנה");
+    }
   };
+  
 
   return (
     <main className='flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-10'>

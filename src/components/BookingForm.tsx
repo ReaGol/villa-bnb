@@ -36,7 +36,7 @@ export default function BookingForm() {
     new Date(2025, 4, 20),
   ];
 
-  const onSubmit = (data: BookingFormData) => {
+  const onSubmit = async (data: BookingFormData) => {
     const adults = Number(data.adults) || 0;
     const children = Number(data.children) || 0;
     const totalGuests = adults + children;
@@ -57,21 +57,27 @@ export default function BookingForm() {
       return;
     }
 
-    console.log("Booking Data:", data);
-
     Cookies.set(
       "bookingInfo",
       JSON.stringify({
         checkIn: data.dateRange[0]?.toISOString() || "",
         checkOut: data.dateRange[1]?.toISOString() || "",
-        adults: adults,
-        children: children,
+        adults: data.adults,
+        children: data.children,
+        fullName: "",
+        phone: "",
+        email: "",
+        specialRequests: "",
+        priceDetails: null,
       }),
       { expires: 7 }
     );
+    
+    
 
-    router.push(`/booking/summary`);
+      router.push("/booking/summary");
   };
+  
 
   return (
     <form

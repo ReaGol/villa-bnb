@@ -30,6 +30,7 @@ export default function Navbar() {
               src='/view_logo.png'
               alt='לוגו וילה ביוון'
               fill
+              sizes='(max-width: 768px) 120px, 160px'
               className='object-cover'
             />
           </div>
