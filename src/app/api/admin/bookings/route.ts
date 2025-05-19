@@ -35,6 +35,22 @@ export async function DELETE(request: Request) {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
+    const { checkIn, checkOut } = data;
+
+    const bookings = await Booking.find(); 
+    const newCheckIn = new Date(checkIn);
+    const newCheckOut = new Date(checkOut);
+
+    const hasConflict = bookings.some((existing) => {
+      return newCheckIn <= existing.checkOut && newCheckOut >= existing.checkIn;
+    });
+
+    if (hasConflict) {
+      return NextResponse.json(
+        { message: "יש חפיפה עם הזמנה קיימת" },
+        { status: 409 }
+      );
+    }
 
     const newBooking = new Booking(data);
     await newBooking.save();

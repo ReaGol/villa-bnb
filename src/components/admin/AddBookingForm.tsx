@@ -32,11 +32,15 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
       body: JSON.stringify(data),
     });
 
+    const result = await res.json();
+
     if (res.ok) {
       onAddBooking();
       reset();
+    } else if (res.status === 409) {
+      alert(result.message || "יש חפיפה עם הזמנה קיימת.");
     } else {
-      alert("אירעה שגיאה בעת הוספת ההזמנה.");
+      alert(result.message || "אירעה שגיאה בעת הוספת ההזמנה.");
     }
   };
 
