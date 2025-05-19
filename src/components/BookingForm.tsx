@@ -6,17 +6,35 @@ import dynamic from "next/dynamic";
 import type { DatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 
 const DatePicker = dynamic<DatePickerProps>(
-  () => import("react-datepicker").then((mod) => mod.default as unknown as React.ComponentType<DatePickerProps>),
+  () =>
+    import("react-datepicker").then(
+      (mod) => mod.default as unknown as React.ComponentType<DatePickerProps>
+    ),
   { ssr: false }
 );
-
 
 interface BookingFormData {
   dateRange: [Date | null, Date | null];
   adults: number;
   children: number;
+}
+
+interface Booking {
+  checkIn: string;
+  checkOut: string;
+}
+
+function getDatesBetween(start: Date, end: Date): Date[] {
+  const dateArray: Date[] = [];
+  const currentDate = new Date(start);
+  while (currentDate <= end) {
+    dateArray.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return dateArray;
 }
 
 export default function BookingForm() {
@@ -28,13 +46,31 @@ export default function BookingForm() {
     formState: { errors },
   } = useForm<BookingFormData>();
 
+  const [unavailableDates, setUnavailableDates] = useState<Date[]>([]);
   const router = useRouter();
 
-  const disabledDates = [
-    new Date(2025, 4, 10),
-    new Date(2025, 4, 15),
-    new Date(2025, 4, 20),
-  ];
+  useEffect(() => {
+    const fetchUnavailableDates = async () => {
+      try {
+        const res = await fetch("/api/unavailable-dates");
+        const data: Booking[] = await res.json();
+
+        const allDates: Date[] = [];
+        data.forEach((booking) => {
+          const start = new Date(booking.checkIn);
+          const end = new Date(booking.checkOut);
+          allDates.push(...getDatesBetween(start, end));
+        });
+
+        setUnavailableDates(allDates);
+
+      } catch (err) {
+        console.error("שגיאה בטעינת תאריכים תפוסים:", err);
+      }
+    };
+
+    fetchUnavailableDates();
+  }, []);
 
   const onSubmit = async (data: BookingFormData) => {
     const adults = Number(data.adults) || 0;
@@ -72,12 +108,9 @@ export default function BookingForm() {
       }),
       { expires: 7 }
     );
-    
-    
 
-      router.push("/booking/summary");
+    router.push("/booking/summary");
   };
-  
 
   return (
     <form
@@ -103,7 +136,7 @@ export default function BookingForm() {
                   onChange={(update: [Date | null, Date | null]) => {
                     field.onChange(update);
                   }}
-                  excludeDates={disabledDates}
+                  excludeDates={unavailableDates}
                   inline
                   dateFormat='dd/MM/yyyy'
                   placeholderText='בחר טווח תאריכים'
@@ -124,7 +157,10 @@ export default function BookingForm() {
         <label className='block mb-2 font-bold'>מבוגרים:</label>
         <input
           type='number'
-          {...register("adults", { required: "יש לבחור מספר מבוגרים", min: 1 })}
+          {...register("adults", {
+            required: "יש לבחור מספר מבוגרים",
+            min: 1,
+          })}
           className='border p-2 w-full rounded'
           min={1}
           max={6}
@@ -139,7 +175,10 @@ export default function BookingForm() {
         <label className='block mb-2 font-bold'>ילדים:</label>
         <input
           type='number'
-          {...register("children", { required: "יש לבחור מספר ילדים", min: 0 })}
+          {...register("children", {
+            required: "יש לבחור מספר ילדים",
+            min: 0,
+          })}
           className='border p-2 w-full rounded'
           min={0}
           max={6}
