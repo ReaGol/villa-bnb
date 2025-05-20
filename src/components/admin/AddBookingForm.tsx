@@ -45,11 +45,15 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
   };
 
   return (
+    <div className='text-center'>
+      <h2 className='text-xl font-semibold mb-4 text-green-700'>
+        הוספת הזמנה חדשה
+      </h2>
+    
     <form
       onSubmit={handleSubmit(onSubmit)}
       className='bg-white border p-6 rounded shadow space-y-4 max-w-xl mx-auto'
     >
-      <h2 className='text-xl font-bold mb-4 text-center'>הוספת הזמנה חדשה</h2>
 
       <input
         type='text'
@@ -78,7 +82,7 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
       />
       {errors.phone && <p className='text-red-500'>{errors.phone.message}</p>}
 
-      <div className='flex gap-4'>
+      <div className='flex flex-col md:flex-row gap-4'>
         <div className='flex-1'>
           <label className='block text-sm mb-1'>תאריך כניסה:</label>
           <input
@@ -97,7 +101,7 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
         </div>
       </div>
 
-      <div className='flex gap-4'>
+      <div className='flex flex-col md:flex-row gap-4'>
         <div className='flex-1'>
           <label className='block text-sm mb-1'>מבוגרים:</label>
           <input
@@ -115,7 +119,6 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
           />
         </div>
       </div>
-
       <textarea
         rows={3}
         placeholder='בקשות מיוחדות (לא חובה)'
@@ -131,5 +134,6 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
         {isSubmitting ? "מוסיף..." : "הוסף הזמנה"}
       </button>
     </form>
+    </div>
   );
 }

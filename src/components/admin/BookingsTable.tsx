@@ -20,6 +20,9 @@ export default function BookingsTable({
 
   return (
     <div className='overflow-x-auto mt-6'>
+      <h2 className='text-xl font-semibold mb-4 text-center text-green-700'>
+        רשימת הזמנות
+      </h2>
       <table className='w-full border rounded text-right'>
         <thead className='bg-gray-100'>
           <tr>

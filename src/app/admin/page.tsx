@@ -2,20 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import BookingsTable from "@/components/admin/BookingsTable";
 import AddBookingForm from "@/components/admin/AddBookingForm";
-
-type Booking = {
-  _id: string;
-  fullName: string;
-  email: string;
-  phone: string;
-  checkIn: string;
-  checkOut: string;
-  adults: number;
-  children: number;
-  specialRequests?: string;
-};
+import BookingsTable from "@/components/admin/BookingsTable";
+import AdminCalendar from "@/components/admin/AdminCalendar";
+import AdminMessages from "@/components/admin/AdminMessages";
+import { Booking } from "@/types/booking";
 
 export default function AdminPage() {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -45,8 +36,6 @@ export default function AdminPage() {
     }
   };
 
-
-
   const handleDeleteBooking = async (id: string) => {
     const confirmed = confirm("האם אתה בטוח שברצונך למחוק את ההזמנה?");
     if (!confirmed) return;
@@ -68,17 +57,29 @@ export default function AdminPage() {
   if (!isAuthorized) return null;
 
   return (
-    <main className='p-8'>
+    <main className='p-6'>
       <h1 className='text-3xl font-bold mb-6 text-center text-green-700'>
         ברוך הבא לפאנל הניהול
       </h1>
 
-      <AddBookingForm onAddBooking={fetchBookings} />
-      <BookingsTable
-        bookings={bookings}
-        loading={loading}
-        onDelete={handleDeleteBooking}
-      />
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+        <div className='bg-white border p-4 rounded shadow-lg transition hover:shadow-2xl hover:-translate-y-1'>
+          <AdminCalendar />
+        </div>
+        <div className='bg-white border p-4 rounded shadow-lg transition hover:shadow-2xl hover:-translate-y-1'>
+          <AddBookingForm onAddBooking={fetchBookings} />
+        </div>
+        <div className='bg-white border p-4 rounded shadow-lg transition hover:shadow-2xl hover:-translate-y-1'>
+          <AdminMessages />
+        </div>
+        <div className='bg-white border p-4 rounded shadow-lg transition hover:shadow-2xl hover:-translate-y-1 lg:col-span-3'>
+          <BookingsTable
+            bookings={bookings}
+            loading={loading}
+            onDelete={handleDeleteBooking}
+          />
+        </div>
+      </div>
     </main>
   );
 }
