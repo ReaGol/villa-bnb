@@ -64,11 +64,24 @@ export default function BookingSummaryPage() {
       }
     }
   }, []);
-  
 
   const onSubmit = async (data: PersonalDetails) => {
-    
     const bookingInfo = JSON.parse(Cookies.get("bookingInfo") || "{}");
+
+    const checkInDate = new Date(bookingInfo.checkIn);
+    const checkOutDate = new Date(bookingInfo.checkOut);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (checkInDate < today || checkOutDate < today) {
+      alert("לא ניתן לבחור תאריכים שכבר עברו.");
+      return;
+    }
+
+    if (checkInDate > checkOutDate) {
+      alert("תאריך היציאה לא יכול להיות לפני תאריך הכניסה.");
+      return;
+    }
 
     const payload = {
       fullName: data.fullName,
@@ -80,7 +93,7 @@ export default function BookingSummaryPage() {
       children: bookingInfo.children,
       specialRequests: data.specialRequests,
     };
-
+    
     const res = await fetch("/api/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -91,14 +104,13 @@ export default function BookingSummaryPage() {
       alert("ההזמנה נשלחה בהצלחה!");
       Cookies.set("confirmedBooking", JSON.stringify(payload), { expires: 7 });
 
-      Cookies.remove("bookingInfo"); 
+      Cookies.remove("bookingInfo");
       router.push("/booking/confirmation");
     } else {
       const result = await res.json();
       alert(result.message || "שגיאה בשליחת ההזמנה");
     }
   };
-  
 
   return (
     <main className='flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-10'>

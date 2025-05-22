@@ -54,6 +54,7 @@ export default function AdminCalendar() {
         excludeDates={unavailableDates}
         dateFormat='dd/MM/yyyy'
         className='w-full'
+        monthsShown={2}
       />
     </div>
   );

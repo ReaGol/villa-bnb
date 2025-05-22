@@ -63,7 +63,6 @@ export default function BookingForm() {
         });
 
         setUnavailableDates(allDates);
-
       } catch (err) {
         console.error("שגיאה בטעינת תאריכים תפוסים:", err);
       }
@@ -89,6 +88,36 @@ export default function BookingForm() {
       setError("children", {
         type: "manual",
         message: 'סה"כ מספר האורחים לא יכול להיות יותר מ-6.',
+      });
+      return;
+    }
+    const [checkIn, checkOut] = data.dateRange;
+
+    if (!checkIn || !checkOut) {
+      setError("dateRange", {
+        type: "manual",
+        message: "יש לבחור טווח תאריכים תקין",
+      });
+      return;
+    }
+
+    if (checkIn > checkOut) {
+      setError("dateRange", {
+        type: "manual",
+        message: "תאריך כניסה לא יכול להיות אחרי תאריך יציאה",
+      });
+      return;
+    }
+
+    const msPerDay = 1000 * 60 * 60 * 24;
+    const nights = Math.round(
+      (checkOut.getTime() - checkIn.getTime()) / msPerDay
+    );
+
+    if (nights < 3) {
+      setError("dateRange", {
+        type: "manual",
+        message: "יש להזמין לפחות 3 לילות.",
       });
       return;
     }
@@ -136,6 +165,7 @@ export default function BookingForm() {
                   onChange={(update: [Date | null, Date | null]) => {
                     field.onChange(update);
                   }}
+                  minDate={new Date()}
                   excludeDates={unavailableDates}
                   inline
                   dateFormat='dd/MM/yyyy'

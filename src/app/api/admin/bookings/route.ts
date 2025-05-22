@@ -6,7 +6,7 @@ await connectToDatabase();
 
 export async function GET() {
   try {
-    const bookings = await Booking.find().sort({ createdAt: -1 });
+    const bookings = await Booking.find().sort({ checkIn: 1 });
     return NextResponse.json(bookings);
   } catch (error) {
     return NextResponse.json(
@@ -37,10 +37,32 @@ export async function POST(request: Request) {
     const data = await request.json();
     const { checkIn, checkOut } = data;
 
-    const bookings = await Booking.find(); 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     const newCheckIn = new Date(checkIn);
     const newCheckOut = new Date(checkOut);
 
+    if (
+      isNaN(newCheckIn.getTime()) ||
+      isNaN(newCheckOut.getTime()) ||
+      newCheckIn < today ||
+      newCheckOut < today
+    ) {
+      return NextResponse.json(
+        { message: "לא ניתן להזין תאריך עבר" },
+        { status: 400 }
+      );
+    }
+
+    if (newCheckIn > newCheckOut) {
+      return NextResponse.json(
+        { message: "תאריך כניסה חייב להיות מוקדם מתאריך יציאה" },
+        { status: 400 }
+      );
+    }
+
+    const bookings = await Booking.find();
     const hasConflict = bookings.some((existing) => {
       return newCheckIn <= existing.checkOut && newCheckOut >= existing.checkIn;
     });
@@ -67,4 +89,4 @@ export async function POST(request: Request) {
     );
   }
 }
-  
+

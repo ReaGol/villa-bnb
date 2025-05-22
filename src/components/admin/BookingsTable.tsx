@@ -1,6 +1,7 @@
 "use client";
 
 import { Booking } from "@/types/booking"; 
+import { useState } from "react";
 
 interface BookingsTableProps {
   bookings: Booking[];
@@ -13,16 +14,39 @@ export default function BookingsTable({
   loading,
   onDelete,
 }: BookingsTableProps) {
+  const [sortBy, setSortBy] = useState("date");
+
+  const sortedBookings = [...bookings].sort((a, b) => {
+    switch (sortBy) {
+      case "name":
+        return a.fullName.localeCompare(b.fullName);
+      case "email":
+        return a.email.localeCompare(b.email);
+      case "date":
+      default:
+        return new Date(a.checkIn).getTime() - new Date(b.checkIn).getTime();
+    }
+  });
+
   if (loading) return <p className='text-center py-6'>טוען הזמנות...</p>;
 
-  if (bookings.length === 0)
+  if (sortedBookings.length === 0)
     return <p className='text-center py-6'>אין הזמנות להצגה.</p>;
 
   return (
     <div className='overflow-x-auto mt-6'>
-      <h2 className='text-xl font-semibold mb-4 text-center text-green-700'>
-        רשימת הזמנות
-      </h2>
+      <div className='flex flex-row mb-4 w-full'>
+        <label className='ml-2 font-semibold'>מיין לפי:</label>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className='border p-1 rounded'
+        >
+          <option value='date'>תאריך כניסה</option>
+          <option value='name'>שם</option>
+          <option value='email'>אימייל</option>
+        </select>
+      </div>
       <table className='w-full border rounded text-right'>
         <thead className='bg-gray-100'>
           <tr>
@@ -36,7 +60,7 @@ export default function BookingsTable({
           </tr>
         </thead>
         <tbody>
-          {bookings.map((b) => (
+          {sortedBookings.map((b) => (
             <tr key={b._id} className='border-t'>
               <td className='p-2'>{b.fullName}</td>
               <td className='p-2'>{b.email}</td>
