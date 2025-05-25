@@ -38,6 +38,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const existingBookings = await Booking.find();
+    const newCheckIn = new Date(checkIn);
+    const newCheckOut = new Date(checkOut);
+
+    const hasConflict = existingBookings.some((booking) => {
+      const existingCheckIn = new Date(booking.checkIn);
+      const existingCheckOut = new Date(booking.checkOut);
+      return newCheckIn <= existingCheckOut && newCheckOut >= existingCheckIn;
+    });
+
+    if (hasConflict) {
+      return NextResponse.json(
+        { message: "יש חפיפה עם הזמנה קיימת" },
+        { status: 409 }
+      );
+    }
+
     const newBooking = new Booking({
       fullName,
       email,

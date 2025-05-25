@@ -43,6 +43,7 @@ export default function BookingForm() {
     handleSubmit,
     control,
     setError,
+    clearErrors,
     formState: { errors },
   } = useForm<BookingFormData>();
 
@@ -164,6 +165,37 @@ export default function BookingForm() {
                   endDate={field.value?.[1]}
                   onChange={(update: [Date | null, Date | null]) => {
                     field.onChange(update);
+                    if (update[0] && update[1]) {
+                      let current = new Date(update[0]);
+                      current.setHours(0, 0, 0, 0);
+                      const end = new Date(update[1]);
+                      end.setHours(0, 0, 0, 0);
+                      let hasUnavailable = false;
+                      while (current <= end) {
+                        if (
+                          unavailableDates.some(
+                            (d) =>
+                              d.getFullYear() === current.getFullYear() &&
+                              d.getMonth() === current.getMonth() &&
+                              d.getDate() === current.getDate()
+                          )
+                        ) {
+                          hasUnavailable = true;
+                          break;
+                        }
+                        current.setDate(current.getDate() + 1);
+                      }
+                      if (hasUnavailable) {
+                        setError("dateRange", {
+                          type: "manual",
+                          message: "הטווח שבחרת כולל תאריכים לא זמינים",
+                        });
+                        field.onChange([null, null]);
+                        return;
+                      } else {
+                        clearErrors("dateRange");
+                      }
+                    }
                   }}
                   minDate={new Date()}
                   excludeDates={unavailableDates}
