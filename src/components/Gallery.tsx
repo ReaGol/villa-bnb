@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 const categories = {
   חדרים: ["1st_bedroom.jpeg", "1st_bedroom2.jpeg", "2nd_bedroom.jpeg"],
   סלון: ["livingroom1.jpeg", "livingroom2.jpeg", "livingroom3.jpeg"],
   מטבח: ["kitchen1.jpeg", "kitchen2.jpeg", "kitchen3.jpeg"],
-  "חדרי רחצה": ["1st_bathroom.jpeg", "2nd_bathroom.jpeg","2nd_bathroom2.jpeg"],
+  "חדרי רחצה": ["1st_bathroom.jpeg", "2nd_bathroom.jpeg", "2nd_bathroom2.jpeg"],
   חוץ: ["garden1.jpeg", "garden2.jpeg", "outside_house.jpeg"],
 };
 
@@ -16,6 +18,7 @@ const fallbackImage = "/gallery/house_from_mountain.jpeg";
 export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] =
     useState<keyof typeof categories>("חדרים");
+  const [lightboxIndex, setLightboxIndex] = useState<number>(-1);
 
   const initialSrcs = categories[selectedCategory].reduce((acc, img) => {
     acc[img] = `/gallery/${img}`;
@@ -33,6 +36,10 @@ export default function GalleryPage() {
     }, {} as Record<string, string>);
     setImageSrcs(newSrcs);
   };
+
+  const slides = categories[selectedCategory].map((img) => ({
+    src: imageSrcs[img],
+  }));
 
   return (
     <main className='p-8 max-w-5xl mx-auto flex flex-col min-h-screen'>
@@ -76,9 +83,9 @@ export default function GalleryPage() {
         {categories[selectedCategory].map((img, index) => (
           <div
             key={index}
-            className='relative overflow-hidden rounded-lg shadow aspect-[4/3] w-full h-64 sm:h-72 md:h-80'
+            className='relative overflow-hidden rounded-lg shadow aspect-[4/3] w-full h-64 sm:h-72 md:h-80 cursor-pointer'
+            onClick={() => setLightboxIndex(index)}
           >
-            {/* TODO: Add option to enlarge photos (lightbox/modal)  */}
             <Image
               src={imageSrcs[img]}
               alt={`${selectedCategory} ${index + 1}`}
@@ -95,6 +102,13 @@ export default function GalleryPage() {
           </div>
         ))}
       </div>
+
+      <Lightbox
+        open={lightboxIndex >= 0}
+        close={() => setLightboxIndex(-1)}
+        slides={slides}
+        index={lightboxIndex}
+      />
     </main>
   );
 }

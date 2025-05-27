@@ -12,7 +12,6 @@ interface Message {
   createdAt: string;
 }
 
-
 export default function AdminMessages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +28,7 @@ export default function AdminMessages() {
   if (messages.length === 0) return <p>אין הודעות להצגה.</p>;
 
   return (
-    <div>
+    <div className='overflow-y-auto max-h-[400px] lg:max-h-none min-h-[300px]'>
       <h2 className='text-xl font-semibold mb-4 text-center text-green-700'>
         הודעות מ'צור קשר'
       </h2>

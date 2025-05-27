@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
       adults,
       children,
       specialRequests,
+      createdBy = "guest",
     } = data;
 
     if (
@@ -64,6 +65,7 @@ export async function POST(request: NextRequest) {
       adults,
       children,
       specialRequests,
+      createdBy,
     });
 
     await newBooking.save();

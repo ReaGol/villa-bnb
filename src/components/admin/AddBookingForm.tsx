@@ -53,7 +53,7 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
     const res = await fetch("/api/admin/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, createdBy: "admin" }),
     });
 
     const result = await res.json();

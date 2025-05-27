@@ -92,6 +92,7 @@ export default function BookingSummaryPage() {
       adults: bookingInfo.adults,
       children: bookingInfo.children,
       specialRequests: data.specialRequests,
+      createdBy: "guest",
     };
     
     const res = await fetch("/api/bookings", {

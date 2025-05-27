@@ -74,7 +74,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const newBooking = new Booking(data);
+    const createdBy = data.createdBy || "admin";
+    const newBooking = new Booking({ ...data, createdBy });
+
     await newBooking.save();
 
     return NextResponse.json(

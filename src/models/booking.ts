@@ -10,6 +10,7 @@ export interface Booking extends Document {
   children: number;
   specialRequests?: string;
   createdAt: Date;
+  createdBy: "guest" | "admin";
 }
 
 const BookingSchema = new Schema<Booking>({
@@ -22,6 +23,7 @@ const BookingSchema = new Schema<Booking>({
   children: { type: Number, required: true, min: 0 },
   specialRequests: { type: String },
   createdAt: { type: Date, default: Date.now },
+  createdBy: { type: String, enum: ["guest", "admin"], required: true },
 });
 
 export default models.Booking ||
