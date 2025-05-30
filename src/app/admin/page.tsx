@@ -7,6 +7,7 @@ import BookingsTable from "@/components/admin/BookingsTable";
 import AdminCalendar from "@/components/admin/AdminCalendar";
 import AdminMessages from "@/components/admin/AdminMessages";
 import { Booking } from "@/types/booking";
+import AdminRecommendations from "@/components/admin/AdminRecommendations";
 
 export default function AdminPage() {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -78,6 +79,9 @@ export default function AdminPage() {
             loading={loading}
             onDelete={handleDeleteBooking}
           />
+        </div>
+        <div className='bg-white border p-4 rounded shadow-lg transition hover:shadow-2xl hover:-translate-y-1'>
+          <AdminRecommendations />
         </div>
       </div>
     </main>

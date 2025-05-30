@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import RecommendationCard from "./RecommendationCard";
 import RecommendationForm from "./RecommendationForm";
 
-type Recommendation = {
+export type Recommendation = {
+  _id?: string;
   name: string;
   stars: number;
   message: string;
@@ -15,23 +16,45 @@ export default function RecommendationsList() {
   const [showForm, setShowForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const fetchAndSetRecommendations = () => {
+    fetch("/api/recommendations")
+      .then((res) => res.json())
+      .then((dbRecs) => {
+        setRecommendations([...defaultRecommendations, ...dbRecs]);
+      })
+      .catch(() => {
+        setRecommendations([...defaultRecommendations]);
+      });
+  };
+
   useEffect(() => {
-    const saved = localStorage.getItem("guest-recommendations");
-    const parsed = saved ? JSON.parse(saved) : [];
-    setRecommendations([...defaultRecommendations, ...parsed]);
+    fetchAndSetRecommendations();
   }, []);
 
-  const handleAdd = (rec: Recommendation) => {
-    const updated = [...recommendations, rec];
-    setRecommendations(updated);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const guestOnly = updated.slice(defaultRecommendations.length);
-    localStorage.setItem("guest-recommendations", JSON.stringify(guestOnly));
+  const handleAdd = async (rec: Recommendation) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
-    setShowForm(false);
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 4000);
+    const res = await fetch("/api/recommendations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(rec),
+    });
+
+    if (res.ok) {
+      setShowForm(false);
+      setShowSuccess(true);
+      fetchAndSetRecommendations();
+      setTimeout(() => setShowSuccess(false), 4000);
+    } else {
+      alert("שגיאה בהוספת ההמלצה");
+    }
+
+    setIsSubmitting(false);
   };
+
 
   return (
     <div className='space-y-6 relative'>
@@ -54,7 +77,7 @@ export default function RecommendationsList() {
 
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
         {recommendations.map((rec, index) => (
-          <RecommendationCard key={index} recommendation={rec} />
+          <RecommendationCard key={rec._id || index} recommendation={rec} />
         ))}
       </div>
     </div>

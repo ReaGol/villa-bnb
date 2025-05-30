@@ -9,7 +9,7 @@ type NewRecommendation = {
 };
 
 type Props = {
-  onAdd: (rec: NewRecommendation) => void;
+  onAdd?: (rec: NewRecommendation) => void;
 };
 
 export default function RecommendationForm({ onAdd }: Props) {
@@ -25,17 +25,10 @@ export default function RecommendationForm({ onAdd }: Props) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleStarsChange = (value: number) => {
-    setFormData({ ...formData, stars: value });
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.message) return;
-    onAdd({
-      ...formData,
-      stars: Number(formData.stars),
-    });
+    onAdd?.({ ...formData, stars: Number(formData.stars) });
     setFormData({ name: "", stars: 5, message: "" });
   };
 
