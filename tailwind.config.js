@@ -7,6 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    container: {
+      center: true,
+    },
   },
   plugins: [],
+  corePlugins: {
+    container: true,
+  },
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
 };
