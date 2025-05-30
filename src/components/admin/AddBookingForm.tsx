@@ -105,30 +105,35 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
         />
         {errors.phone && <p className='text-red-500'>{errors.phone.message}</p>}
 
-        <div className='flex flex-col md:flex-row gap-4'>
-          <div className='flex-1'>
-            <label className='block text-sm mb-1'>תאריך כניסה:</label>
-            <input
-              type='date'
-              {...register("checkIn", { required: true })}
-              min={new Date().toISOString().split("T")[0]}
-              className='w-full border p-2 rounded'
-            />
-            {errors.checkIn && (
-              <p className='text-red-500'>{errors.checkIn.message}</p>
-            )}
-          </div>
-          <div className='flex-1'>
-            <label className='block text-sm mb-1'>תאריך יציאה:</label>
-            <input
-              type='date'
-              {...register("checkOut", { required: true })}
-              min={new Date().toISOString().split("T")[0]}
-              className='w-full border p-2 rounded'
-            />
-            {errors.checkOut && (
-              <p className='text-red-500'>{errors.checkOut.message}</p>
-            )}
+        <div
+          className='container w-full max-w-full'
+          style={{ containerType: "inline-size" }}
+        >
+          <div className='@container flex flex-col gap-4 @[400px]:flex-row'>
+            <div className='flex-1'>
+              <label className='block text-sm mb-1'>תאריך כניסה:</label>
+              <input
+                type='date'
+                {...register("checkIn", { required: true })}
+                min={new Date().toISOString().split("T")[0]}
+                className='w-full border p-2 rounded'
+              />
+              {errors.checkIn && (
+                <p className='text-red-500'>{errors.checkIn.message}</p>
+              )}
+            </div>
+            <div className='flex-1'>
+              <label className='block text-sm mb-1'>תאריך יציאה:</label>
+              <input
+                type='date'
+                {...register("checkOut", { required: true })}
+                min={new Date().toISOString().split("T")[0]}
+                className='w-full border p-2 rounded'
+              />
+              {errors.checkOut && (
+                <p className='text-red-500'>{errors.checkOut.message}</p>
+              )}
+            </div>
           </div>
         </div>
 
@@ -168,5 +173,3 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
     </div>
   );
 }
-
-
