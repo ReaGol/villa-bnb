@@ -1,0 +1,29 @@
+{
+  "home": {
+    "heroTitle": "A Dream Vacation in Greece You Didn't Know About",
+    "heroSubtitle": "The perfect place for an unforgettable holiday",
+    "description": "Our villa offers a unique hospitality experience in nature. Breathtaking views and comfortable rooms will ensure a perfect vacation.",
+    "checkAvailability": "Check Availability"
+  },
+  "booking": {
+    "title": "Book your dream vacation now",
+    "form": {
+      "range": "Select Date Range",
+      "adults": "Adults",
+      "children": "Children",
+      "submit": "Submit Booking"
+    }
+  },
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "gallery": "Gallery",
+    "booking": "Booking",
+    "recommendations": "Recommendations",
+    "contact": "Contact",
+    "admin": "Admin"
+  },
+  "footer": {
+    "rights": "Reut Goldin. All rights reserved."
+  }
+}

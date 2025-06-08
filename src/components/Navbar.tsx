@@ -4,19 +4,21 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-
-const navLinks = [
-  { name: "בית", href: "/" },
-  { name: "אודות", href: "/about" },
-  { name: "גלריה", href: "/gallery" },
-  { name: "הזמנות", href: "/booking" },
-  { name: "המלצות", href: "/recommendations" },
-  { name: "צור קשר", href: "/contact" },
-  { name: "ניהול", href: "/admin" },
-];
+import { useTranslations } from "next-intl";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const t = useTranslations("navbar");
+
+  const navLinks = [
+    { name: t("home"), href: "/" },
+    { name: t("about"), href: "/about" },
+    { name: t("gallery"), href: "/gallery" },
+    { name: t("booking"), href: "/booking" },
+    { name: t("recommendations"), href: "/recommendations" },
+    { name: t("contact"), href: "/contact" },
+    { name: t("admin"), href: "/admin" },
+  ];
 
   return (
     <header className='bg-gray-100 shadow-md'>

@@ -4,10 +4,22 @@ import { NextResponse } from "next/server";
 
 await connectToDatabase();
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const url = new URL(req.url);
+    const lang = url.searchParams.get("lang") || "he";
+
     const recs = await Recommendation.find().sort({ createdAt: -1 });
-    return NextResponse.json(recs);
+
+    const translatedRecs = recs.map((rec) => ({
+      _id: rec._id,
+      name: rec.name,
+      stars: rec.stars,
+      message: rec.message[lang as "he" | "en"] || rec.message.he,
+      createdAt: rec.createdAt,
+    }));
+
+    return NextResponse.json(translatedRecs);
   } catch (err) {
     return NextResponse.json(
       { message: "שגיאה בשליפת המלצות" },
@@ -21,7 +33,13 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { name, stars, message } = body;
 
-    if (!name || !stars || !message) {
+    if (
+      !name ||
+      !stars ||
+      !message ||
+      typeof message !== "object" ||
+      (!message.he && !message.en)
+    ) {
       return NextResponse.json({ message: "שדות חסרים" }, { status: 400 });
     }
 
@@ -33,6 +51,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "שגיאה בשרת" }, { status: 500 });
   }
 }
+
 
 export async function DELETE(req: Request) {
   const { searchParams } = new URL(req.url);

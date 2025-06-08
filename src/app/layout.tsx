@@ -1,46 +1,27 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Great_Vibes } from "next/font/google";
+// app/layout.tsx
+import { ReactNode } from "react";
 import "../styles/globals.css";
+import { Geist, Geist_Mono, Great_Vibes } from "next/font/google";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  preload: false,
-});
-
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  preload: false,
 });
-
 const greatVibes = Great_Vibes({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-great-vibes",
 });
 
-export const metadata: Metadata = {
-  title: "Dream Vacation in Greece",
-  description: "A website for a dream vacation in Greece villa b&b",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang='he' dir='rtl'>
+    <html lang='he'>
       <body
+        dir='rtl'
         className={`flex flex-col min-h-screen ${geistSans.variable} ${geistMono.variable} ${greatVibes.variable} antialiased`}
       >
-        <Navbar />
-        <main className='flex-grow'>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

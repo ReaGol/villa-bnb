@@ -1,12 +1,15 @@
-import { FaFacebook, FaInstagram, FaPhone } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+  const t = useTranslations("footer");
+
   return (
     <footer className='bg-gray-100 text-gray-700 py-6 mt-10'>
       <div className='container mx-auto flex flex-col md:flex-row items-center justify-between px-4'>
         <p className='text-sm mb-4 md:mb-0 text-center md:text-right'>
-          &copy; {new Date().getFullYear()} רעות גולדין. כל הזכויות שמורות.
+          &copy; {new Date().getFullYear()} {t("rights")}
         </p>
 
         <div className='flex space-x-4 rtl:space-x-reverse gap-4 text-2xl'>

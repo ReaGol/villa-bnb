@@ -5,11 +5,20 @@ import { useState } from "react";
 type NewRecommendation = {
   name: string;
   stars: number;
-  message: string;
+  message: string; 
+};
+
+type RecommendationPayload = {
+  name: string;
+  stars: number;
+  message: {
+    he: string;
+    en?: string;
+  };
 };
 
 type Props = {
-  onAdd?: (rec: NewRecommendation) => void;
+  onAdd?: (rec: RecommendationPayload) => void;
 };
 
 export default function RecommendationForm({ onAdd }: Props) {
@@ -28,7 +37,16 @@ export default function RecommendationForm({ onAdd }: Props) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.message) return;
-    onAdd?.({ ...formData, stars: Number(formData.stars) });
+
+    const payload: RecommendationPayload = {
+      name: formData.name,
+      stars: Number(formData.stars),
+      message: {
+        he: formData.message, 
+      },
+    };
+
+    onAdd?.(payload);
     setFormData({ name: "", stars: 5, message: "" });
   };
 
