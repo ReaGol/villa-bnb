@@ -1,4 +1,3 @@
-// app/layout.tsx
 import { ReactNode } from "react";
 import "../styles/globals.css";
 import { Geist, Geist_Mono, Great_Vibes } from "next/font/google";

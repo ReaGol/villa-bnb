@@ -1,4 +1,3 @@
-// app/[locale]/layout.tsx
 import { NextIntlClientProvider } from "next-intl";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";

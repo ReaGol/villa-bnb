@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import Image from "next/image";
 import Lightbox from "yet-another-react-lightbox";
@@ -16,8 +17,9 @@ const categories = {
 const fallbackImage = "/gallery/house_from_mountain.jpeg";
 
 export default function GalleryPage() {
-  const [selectedCategory, setSelectedCategory] =
-    useState<keyof typeof categories>("חדרים");
+  const t = useTranslations("gallery");
+  const tCategories = t.raw("categories") as Record<string, string>;
+  const [selectedCategory, setSelectedCategory] = useState<keyof typeof categories>("חדרים");
   const [lightboxIndex, setLightboxIndex] = useState<number>(-1);
 
   const initialSrcs = categories[selectedCategory].reduce((acc, img) => {
@@ -25,8 +27,7 @@ export default function GalleryPage() {
     return acc;
   }, {} as Record<string, string>);
 
-  const [imageSrcs, setImageSrcs] =
-    useState<Record<string, string>>(initialSrcs);
+  const [imageSrcs, setImageSrcs] = useState<Record<string, string>>(initialSrcs);
 
   const handleCategoryChange = (category: keyof typeof categories) => {
     setSelectedCategory(category);
@@ -43,22 +44,16 @@ export default function GalleryPage() {
 
   return (
     <main className='p-8 max-w-5xl mx-auto flex flex-col min-h-screen'>
-      <h1 className='text-4xl font-bold text-center mb-8'>גלריה</h1>
+      <h1 className='text-4xl font-bold text-center mb-8'>{t("title")}</h1>
 
       <div className='hidden sm:flex flex-wrap justify-center mb-8 gap-4'>
         {Object.keys(categories).map((category) => (
           <button
             key={category}
-            onClick={() =>
-              handleCategoryChange(category as keyof typeof categories)
-            }
-            className={`py-2 px-4 rounded ${
-              selectedCategory === category
-                ? "bg-green-600 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
-            }`}
+            onClick={() => handleCategoryChange(category as keyof typeof categories)}
+            className={`py-2 px-4 rounded ${selectedCategory === category ? "bg-green-600 text-white" : "bg-gray-200 hover:bg-gray-300"}`}
           >
-            {category}
+            {tCategories[category] || category}
           </button>
         ))}
       </div>
@@ -66,14 +61,12 @@ export default function GalleryPage() {
       <div className='sm:hidden mb-8 text-center'>
         <select
           value={selectedCategory}
-          onChange={(e) =>
-            handleCategoryChange(e.target.value as keyof typeof categories)
-          }
+          onChange={(e) => handleCategoryChange(e.target.value as keyof typeof categories)}
           className='p-2 border rounded w-full max-w-xs'
         >
           {Object.keys(categories).map((category) => (
             <option key={category} value={category}>
-              {category}
+              {tCategories[category] || category}
             </option>
           ))}
         </select>
@@ -88,7 +81,7 @@ export default function GalleryPage() {
           >
             <Image
               src={imageSrcs[img]}
-              alt={`${selectedCategory} ${index + 1}`}
+              alt={`${tCategories[selectedCategory] || selectedCategory} ${index + 1}`}
               fill
               sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw'
               className='object-cover hover:scale-105 transition-transform duration-300'

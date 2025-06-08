@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 type NewRecommendation = {
   name: string;
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export default function RecommendationForm({ onAdd }: Props) {
+  const t = useTranslations("recommendations");
   const [formData, setFormData] = useState<NewRecommendation>({
     name: "",
     stars: 5,
@@ -56,23 +58,23 @@ export default function RecommendationForm({ onAdd }: Props) {
       className='bg-white p-6 rounded shadow space-y-4 max-w-xl mx-auto'
     >
       <h2 className='text-2xl font-bold text-green-700 text-center'>
-        הוסיפו המלצה משלכם
+        {t("secondaryTitle")}
       </h2>
 
       <div>
-        <label className='block font-bold mb-1'>שם:</label>
+        <label className='block font-bold mb-1'>{t("name")}:</label>
         <input
           name='name'
           type='text'
           className='border p-2 w-full rounded'
           value={formData.name}
           onChange={handleChange}
-          placeholder='הכניסו את שמכם'
+          placeholder={t("form.namePlaceholder")}
         />
       </div>
 
       <div>
-        <label className='block font-bold mb-1'>דירוג (כוכבים):</label>
+        <label className='block font-bold mb-1'>{t("stars")}:</label>
         <input
           name='stars'
           type='number'
@@ -85,14 +87,14 @@ export default function RecommendationForm({ onAdd }: Props) {
       </div>
 
       <div>
-        <label className='block font-bold mb-1'>הודעה:</label>
+        <label className='block font-bold mb-1'>{t("message")}:</label>
         <textarea
           name='message'
           rows={4}
           className='border p-2 w-full rounded'
           value={formData.message}
           onChange={handleChange}
-          placeholder='כתבו את המלצתכם כאן...'
+          placeholder={t("form.messagePlaceholder")}
         />
       </div>
 
@@ -100,7 +102,7 @@ export default function RecommendationForm({ onAdd }: Props) {
         type='submit'
         className='bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded w-full'
       >
-        שלחו המלצה
+        {t("submit")}
       </button>
     </form>
   );

@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { calculatePrice } from "@/utils/calculatePrice";
+import { useTranslations, useLocale } from "next-intl";
 
 interface BookingInfo {
   checkIn: string;
@@ -21,6 +22,8 @@ interface PersonalDetails {
 }
 
 export default function BookingSummaryPage() {
+  const t = useTranslations("booking");
+  const locale = useLocale();
   const [bookingInfo, setBookingInfo] = useState<BookingInfo | null>(null);
   const [priceDetails, setPriceDetails] = useState<{
     totalPrice: number;
@@ -60,7 +63,7 @@ export default function BookingSummaryPage() {
         });
         setPriceDetails(price);
       } else if (totalGuests > 6) {
-        console.error("תפוסה מירבית היא 6 אנשים.");
+        alert(t("validation.maxGuests"));
       }
     }
   }, []);
@@ -74,12 +77,12 @@ export default function BookingSummaryPage() {
     today.setHours(0, 0, 0, 0);
 
     if (checkInDate < today || checkOutDate < today) {
-      alert("לא ניתן לבחור תאריכים שכבר עברו.");
+      alert(t("validation.pastDates"));
       return;
     }
 
     if (checkInDate > checkOutDate) {
-      alert("תאריך היציאה לא יכול להיות לפני תאריך הכניסה.");
+      alert(t("validation.invalidDateRange"));
       return;
     }
 
@@ -102,14 +105,14 @@ export default function BookingSummaryPage() {
     });
 
     if (res.ok) {
-      alert("ההזמנה נשלחה בהצלחה!");
+      alert(t("successMessage"));
       Cookies.set("confirmedBooking", JSON.stringify(payload), { expires: 7 });
 
       Cookies.remove("bookingInfo");
       router.push("/booking/confirmation");
     } else {
       const result = await res.json();
-      alert(result.message || "שגיאה בשליחת ההזמנה");
+      alert(result.message || t("errorMessage"));
     }
   };
 
@@ -117,38 +120,38 @@ export default function BookingSummaryPage() {
     <main className='flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-10'>
       <div className='bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg border'>
         <h1 className='text-3xl font-bold text-green-700 mb-6 text-center'>
-          סיכום ההזמנה שלך
+          {t("summaryTitle")}
         </h1>
 
         {bookingInfo ? (
           <div className='space-y-4 text-lg mb-6'>
             <div className='flex justify-between border-b pb-2'>
-              <span className='font-semibold text-gray-600'>תאריך כניסה:</span>
+              <span className='font-semibold text-gray-600'>{t("fields.checkIn")}</span>
               <span>
                 {new Date(bookingInfo.checkIn).toLocaleDateString("he-IL")}
               </span>
             </div>
 
             <div className='flex justify-between border-b pb-2'>
-              <span className='font-semibold text-gray-600'>תאריך יציאה:</span>
+              <span className='font-semibold text-gray-600'>{t("fields.checkOut")}</span>
               <span>
                 {new Date(bookingInfo.checkOut).toLocaleDateString("he-IL")}
               </span>
             </div>
 
             <div className='flex justify-between border-b pb-2'>
-              <span className='font-semibold text-gray-600'>מבוגרים:</span>
+              <span className='font-semibold text-gray-600'>{t("fields.adults")}</span>
               <span>{bookingInfo.adults}</span>
             </div>
 
             <div className='flex justify-between border-b pb-2'>
-              <span className='font-semibold text-gray-600'>ילדים:</span>
+              <span className='font-semibold text-gray-600'>{t("fields.children")}</span>
               <span>{bookingInfo.children}</span>
             </div>
 
             {priceDetails && (
               <div className='flex justify-between border-b pb-2 mt-2'>
-                <span className='font-semibold text-gray-600'>מחיר משוער:</span>
+                <span className='font-semibold text-gray-600'>{t("fields.price")}</span>
                 <span>
                   €{priceDetails.totalPrice} ({priceDetails.discount})
                 </span>
@@ -157,34 +160,34 @@ export default function BookingSummaryPage() {
           </div>
         ) : (
           <p className='text-red-500 text-center mb-6'>
-            לא נמצאה הזמנה. אנא חזור אחורה ובדוק זמינות מחדש.
+            {t("summaryNotFound")}
           </p>
         )}
 
         <h2 className='text-2xl font-bold text-green-700 mb-4 text-center'>
-          הזינו את הפרטים האישיים שלכם
+          {t("personalDetailsTitle")}
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
           <div>
-            <label className='block mb-2 font-bold'>שם מלא:</label>
+            <label className='block mb-2 font-bold'>{t("form.fullName") + ":"}</label>
             <input
               type='text'
-              {...register("fullName", { required: "יש להזין שם מלא" })}
+              {...register("fullName", { required: t("validation.fullNameRequired") })}
               className='border p-2 w-full rounded'
-              placeholder='הכנס שם מלא'
+              placeholder={t("placeholders.fullName")}
             />
             {errors.fullName && (
               <p className='text-red-500'>{errors.fullName.message}</p>
             )}
           </div>
           <div>
-            <label className='block mb-2 font-bold'>טלפון:</label>
+            <label className='block mb-2 font-bold'>{t("form.phone") + ":"}</label>
             <input
               type='tel'
-              {...register("phone", { required: "יש להזין מספר טלפון" })}
+              {...register("phone", { required: t("validation.phoneRequired") })}
               className='border p-2 w-full rounded placeholder:text-right'
-              placeholder='הכנס מספר טלפון'
+              placeholder={t("placeholders.phone")}
             />
             {errors.phone && (
               <p className='text-red-500'>{errors.phone.message}</p>
@@ -192,24 +195,24 @@ export default function BookingSummaryPage() {
           </div>
 
           <div>
-            <label className='block mb-2 font-bold'>אימייל:</label>
+            <label className='block mb-2 font-bold'>{t("form.email") + ":"}</label>
             <input
               type='email'
-              {...register("email", { required: "יש להזין כתובת אימייל" })}
+              {...register("email", { required: t("validation.emailRequired") })}
               className='border p-2 w-full rounded'
-              placeholder='הכנס כתובת אימייל'
+              placeholder={t("placeholders.email")}
             />
             {errors.email && (
               <p className='text-red-500'>{errors.email.message}</p>
             )}
           </div>
           <div>
-            <label className='block mb-2 font-bold'>בקשות מיוחדות:</label>
+            <label className='block mb-2 font-bold'>{t("form.specialRequests") + ":"}</label>
             <textarea
               {...register("specialRequests")}
               className='border p-2 w-full rounded'
               rows={3}
-              placeholder='כאן אפשר לכתוב בקשות מיוחדות...'
+              placeholder={t("placeholders.specialRequests")}
             />
           </div>
 
@@ -217,7 +220,7 @@ export default function BookingSummaryPage() {
             type='submit'
             className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
           >
-            אשר הזמנה
+            {t("confirm")}
           </button>
           <div className='mt-6 text-center'>
             <button
@@ -225,7 +228,7 @@ export default function BookingSummaryPage() {
               onClick={() => router.push("/booking")}
               className='bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded text-sm font-semibold'
             >
-              ערוך הזמנה
+              {t("edit")}
             </button>
 
             <button
@@ -233,7 +236,7 @@ export default function BookingSummaryPage() {
               onClick={() => router.push("/")}
               className='block mt-3 underline text-green-700 hover:text-green-900 text-sm'
             >
-              חזרה לדף הבית
+              {t("backToHome")}
             </button>
           </div>
         </form>

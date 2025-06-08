@@ -26,7 +26,7 @@ export default function RecommendationsList() {
     fetch("/api/recommendations")
       .then((res) => res.json())
       .then((dbRecs) => {
-        setRecommendations([dbRecs]);
+        setRecommendations(dbRecs);
       })
       .catch(() => {
         setRecommendations([]);
@@ -73,7 +73,7 @@ export default function RecommendationsList() {
           onClick={() => setShowForm((prev) => !prev)}
           className='bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-semibold'
         >
-          {showForm ? "ביטול" : "הוסיפו המלצה"}
+          {showForm ? (locale === "he" ? "ביטול" : "Cancel") : (locale === "he" ? "הוסיפו המלצה" : "Add Recommendation")}
         </button>
       </div>
 

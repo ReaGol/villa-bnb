@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface ContactFormData {
   fullName: string;
@@ -12,6 +13,8 @@ interface ContactFormData {
 }
 
 export default function ContactForm() {
+  const t = useTranslations("contact");
+
   const {
     register,
     handleSubmit,
@@ -62,84 +65,84 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       <div>
-        <label className='block mb-2 font-bold'>שם מלא:</label>
+        <label className='block mb-2 font-bold'>{t("form.name") + ":"}</label>
         <input
           type='text'
-          {...register("fullName", { required: "נא להזין שם מלא" })}
+          {...register("fullName", { required: t("form.name") + " " + t("form.required") })}
           className='border p-2 w-full rounded'
-          placeholder='הכנס את שמך המלא'
-          />
+          placeholder={t("form.name")}
+        />
         {errors.fullName && (
           <p className='text-red-500 text-sm'>{errors.fullName.message}</p>
         )}
       </div>
 
       <div>
-        <label className='block mb-2 font-bold'>טלפון:</label>
+        <label className='block mb-2 font-bold'>{t("form.phone") + ":"}</label>
         <input
           type='tel'
-          {...register("phone", { required: "נא להזין מספר טלפון" })}
+          {...register("phone", { required: t("form.phone") + " " + t("form.required") })}
           className='border p-2 w-full rounded placeholder:text-right'
-          placeholder='הכנס את מספר הטלפון שלך'
-          />
+          placeholder={t("form.phone")}
+        />
         {errors.phone && (
           <p className='text-red-500 text-sm'>{errors.phone.message}</p>
         )}
       </div>
 
       <div>
-        <label className='block mb-2 font-bold'>אימייל:</label>
+        <label className='block mb-2 font-bold'>{t("form.email") + ":"}</label>
         <input
           type='email'
           {...register("email", {
-            required: "נא להזין כתובת אימייל",
+            required: t("form.email") + " " + t("form.required"),
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "כתובת אימייל לא תקינה",
+              message: t("form.invalidEmail"),
             },
           })}
           className='border p-2 w-full rounded'
-          placeholder='הכנס את כתובת האימייל שלך'
-          />
+          placeholder={t("form.email")}
+        />
         {errors.email && (
           <p className='text-red-500 text-sm'>{errors.email.message}</p>
         )}
       </div>
 
       <div>
-        <label className='block mb-2 font-bold'>הודעה:</label>
+        <label className='block mb-2 font-bold'>{t("form.message") + ":"}</label>
         <textarea
-          {...register("message", { required: "נא להזין הודעה" })}
+          {...register("message", { required: t("form.message") + " " + t("form.required") })}
           className='border p-2 w-full rounded'
           rows={4}
-          placeholder='כתוב כאן את הודעתך...'
-          />
+          placeholder={t("form.messagePlaceholder")}
+        />
         {errors.message && (
           <p className='text-red-500 text-sm'>{errors.message.message}</p>
         )}
       </div>
       <div>
-        <label className='block mb-2 font-bold'>איך ניצור איתך קשר?</label>
+        <label className='block mb-2 font-bold'>{t("form.preferredContactMethodLabel")}</label>
         <div className='space-y-2'>
           <label className='flex items-center gap-2'>
             <input
               type='radio'
               value='phone'
               {...register("preferredContactMethod", {
-                required: "יש לבחור דרך יצירת קשר",
+                required: t("form.preferredContactMethodRequired"),
               })}
-              />
-            טלפון
+            />
+            {t("form.phone")}
           </label>
           <label className='flex items-center gap-2'>
             <input
               type='radio'
               value='email'
               {...register("preferredContactMethod", {
-                required: "יש לבחור דרך יצירת קשר",
+                required: t("form.preferredContactMethodRequired"),
               })}
-              />
-            אימייל
+            />
+            {t("form.email")}
           </label>
         </div>
         {errors.preferredContactMethod && (
@@ -152,13 +155,13 @@ export default function ContactForm() {
       <button
         type='submit'
         className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
-        >
-        שלח הודעה
+      >
+        {t("form.submit")}
       </button>
 
       {isSubmitted && (
         <p className='text-green-600 mt-4 text-center'>
-          ההודעה נשלחה בהצלחה! נחזור אליכם בהקדם.
+          {t("successMessage")}
         </p>
       )}
 

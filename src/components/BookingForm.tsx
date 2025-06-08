@@ -7,6 +7,7 @@ import type { DatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const DatePicker = dynamic<DatePickerProps>(
   () =>
@@ -38,6 +39,7 @@ function getDatesBetween(start: Date, end: Date): Date[] {
 }
 
 export default function BookingForm() {
+  const t = useTranslations("booking");
   const {
     register,
     handleSubmit,
@@ -80,7 +82,7 @@ export default function BookingForm() {
     if (adults < 1) {
       setError("adults", {
         type: "manual",
-        message: "לפחות מבוגר אחד חייב להיות בהזמנה.",
+        message: t("validation.minAdults"),
       });
       return;
     }
@@ -88,7 +90,7 @@ export default function BookingForm() {
     if (totalGuests > 6) {
       setError("children", {
         type: "manual",
-        message: 'סה"כ מספר האורחים לא יכול להיות יותר מ-6.',
+        message: t("validation.maxGuests"),
       });
       return;
     }
@@ -97,7 +99,7 @@ export default function BookingForm() {
     if (!checkIn || !checkOut) {
       setError("dateRange", {
         type: "manual",
-        message: "יש לבחור טווח תאריכים תקין",
+        message: t("validation.dateRangeRequired"),
       });
       return;
     }
@@ -105,7 +107,7 @@ export default function BookingForm() {
     if (checkIn > checkOut) {
       setError("dateRange", {
         type: "manual",
-        message: "תאריך כניסה לא יכול להיות אחרי תאריך יציאה",
+        message: t("validation.invalidDateRange"),
       });
       return;
     }
@@ -118,7 +120,7 @@ export default function BookingForm() {
     if (nights < 3) {
       setError("dateRange", {
         type: "manual",
-        message: "יש להזמין לפחות 3 לילות.",
+        message: t("validation.minNights"),
       });
       return;
     }
@@ -149,15 +151,14 @@ export default function BookingForm() {
     >
       <div>
         <label className='block mb-4 font-bold text-center text-xl'>
-          בחרו טווח תאריכים:
+          {t("form.range")}
         </label>
-
         <div className='flex justify-center'>
           <div className='w-full max-w-lg bg-white rounded-lg p-4 shadow'>
             <Controller
               name='dateRange'
               control={control}
-              rules={{ required: "יש לבחור טווח תאריכים" }}
+              rules={{ required: t("validation.dateRangeRequired") }}
               render={({ field }) => (
                 <DatePicker
                   selectsRange
@@ -188,7 +189,7 @@ export default function BookingForm() {
                       if (hasUnavailable) {
                         setError("dateRange", {
                           type: "manual",
-                          message: "הטווח שבחרת כולל תאריכים לא זמינים",
+                          message: t("validation.unavailableDates"),
                         });
                         field.onChange([null, null]);
                         return;
@@ -201,7 +202,7 @@ export default function BookingForm() {
                   excludeDates={unavailableDates}
                   inline
                   dateFormat='dd/MM/yyyy'
-                  placeholderText='בחר טווח תאריכים'
+                  placeholderText={t("form.range")}
                   className='border p-2 w-full'
                 />
               )}
@@ -214,48 +215,49 @@ export default function BookingForm() {
           </div>
         </div>
       </div>
-
       <div>
-        <label className='block mb-2 font-bold'>מבוגרים:</label>
+        <label className='block mb-2 font-bold'>
+          {t("form.adults") + ":"}
+        </label>
         <input
           type='number'
           {...register("adults", {
-            required: "יש לבחור מספר מבוגרים",
+            required: t("validation.adultsRequired"),
             min: 1,
           })}
           className='border p-2 w-full rounded'
           min={1}
           max={6}
-          placeholder='הכנס מספר מבוגרים'
+          placeholder={t("placeholders.fullName")}
         />
         {errors.adults && (
           <p className='text-red-500'>{errors.adults.message}</p>
         )}
       </div>
-
       <div>
-        <label className='block mb-2 font-bold'>ילדים:</label>
+        <label className='block mb-2 font-bold'>
+          {t("form.children") + ":"}
+        </label>
         <input
           type='number'
           {...register("children", {
-            required: "יש לבחור מספר ילדים",
+            required: t("validation.childrenRequired"),
             min: 0,
           })}
           className='border p-2 w-full rounded'
           min={0}
           max={6}
-          placeholder='הכנס מספר ילדים'
+          placeholder={t("form.children")}
         />
         {errors.children && (
           <p className='text-red-500'>{errors.children.message}</p>
         )}
       </div>
-
       <button
         type='submit'
         className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
       >
-        שלח הזמנה
+        {t("form.submit")}
       </button>
     </form>
   );

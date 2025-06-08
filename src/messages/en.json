@@ -6,12 +6,76 @@
     "checkAvailability": "Check Availability"
   },
   "booking": {
-    "title": "Book your dream vacation now",
+    "title": "Book Your Dream Vacation",
     "form": {
       "range": "Select Date Range",
       "adults": "Adults",
       "children": "Children",
-      "submit": "Submit Booking"
+      "submit": "Submit Booking",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "email": "Email",
+      "specialRequests": "Special Requests",
+      "fullNamePlaceholder": "Enter your full name",
+      "phonePlaceholder": "Enter your phone number",
+      "emailPlaceholder": "Enter your email address",
+      "specialRequestsPlaceholder": "Write any special requests here..."
+    },
+    "successMessage": "Your booking has been successfully submitted! We will contact you soon to confirm.",
+    "errorMessage": "There was an error processing your booking. Please try again later.",
+    "edit": "Edit Booking",
+    "backToHome": "Back to Home",
+    "confirm": "Confirm Booking",
+    "summaryTitle": "Your Booking Summary",
+    "summaryNotFound": "No booking found. Please go back and check availability again.",
+    "personalDetailsTitle": "Enter your personal details",
+    "fields": {
+      "checkIn": "Check-in Date",
+      "checkOut": "Check-out Date",
+      "adults": "Adults",
+      "children": "Children",
+      "price": "Estimated Price",
+      "discount": "Discount",
+      "specialRequests": "Special Requests",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "email": "Email"
+    },
+    "placeholders": {
+      "fullName": "Enter full name",
+      "phone": "Enter phone number",
+      "email": "Enter email address",
+      "specialRequests": "Write any special requests here..."
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required.",
+      "phoneRequired": "Phone number is required.",
+      "emailRequired": "Email address is required.",
+      "invalidEmail": "Invalid email address.",
+      "adultsRequired": "Please select number of adults.",
+      "childrenRequired": "Please select number of children.",
+      "dateRangeRequired": "Please select a valid date range.",
+      "minAdults": "At least one adult is required.",
+      "maxGuests": "Total number of guests cannot exceed 6.",
+      "minNights": "A minimum of 3 nights is required.",
+      "invalidDateRange": "Check-in date cannot be after check-out date.",
+      "unavailableDates": "The selected range includes unavailable dates."
+    },
+    "confirmation": {
+      "title": "Thank you for your booking! We will contact you soon.",
+      "notFound": "No booking found. Please return to the home page.",
+      "fields": {
+        "checkIn": "Check-in Date:",
+        "checkOut": "Check-out Date:",
+        "adults": "Adults:",
+        "children": "Children:",
+        "specialRequests": "Special Requests:",
+        "fullName": "Full Name:",
+        "phone": "Phone:",
+        "email": "Email:"
+      },
+      "noSpecialRequests": "None",
+      "backToHome": "Back to Home"
     }
   },
   "navbar": {
@@ -25,5 +89,161 @@
   },
   "footer": {
     "rights": "Reut Goldin. All rights reserved."
+  },
+  "recommendations": {
+    "AddRecommendationTitle": "Guest Recommendations",
+    "addRecommendation": "Add Recommendation",
+    "secondaryTitle": "Share your experience with us!",
+    "cancel": "Cancel",
+    "name": "Name",
+    "stars": "Stars",
+    "message": "Message",
+    "submit": "Send recommendation",
+    "successMessage": "✅ Recommendation sent successfully! Thank you 💚",
+    "readMore": "Read more",
+    "readLess": "Hide",
+    "loading": "Loading recommendations...",
+    "noRecommendations": "No recommendations available yet.",
+    "form": {
+      "namePlaceholder": "Enter your name",
+      "messagePlaceholder": "Write your recommendation here...",
+      "starsPlaceholder": "Rate from 1 to 5 stars"
+    },
+    "actions": {
+      "submitRecommendation": "Submit Recommendation",
+      "viewAll": "View all recommendations"
+    },
+    "error": {
+      "network": "Network error, please try again later.",
+      "validation": {
+        "nameRequired": "Name is required.",
+        "messageRequired": "Recommendation is required.",
+        "starsRequired": "Stars are required."
+      }
+    }
+  },
+  "about": {
+    "title": "About the Villa",
+    "subtitles": [
+      "Authentic Greek Experience by the Sea",
+      "Breathtaking Views and Peaceful Beaches",
+      "High-Level Hospitality and Attention to Detail",
+      "Strategic Location for Exploring Authentic Greece",
+      "Booking and Personalization for Your Needs",
+      "Where Are We Located?"
+    ],
+    "descriptions": [
+      "A dream vacation in Greece you didn't know about offers you a unique opportunity to experience the real Greece, far from the tourist crowds. Located just 80 meters from the stunning Pigadi shoreline, our new and modern house provides guests with an unforgettable experience of tranquility, natural beauty, and maximum comfort. With two bedrooms, two bathrooms, a well-equipped kitchen, and a spacious living room, the house is a perfect base for a family holiday or a romantic getaway.",
+      "One of the hallmarks of our property is the breathtaking view. From the private balcony, you can enjoy the blue sea and endless horizon. The sandy and quiet beaches of Pigadi invite you to hours of relaxation, swimming, and sunbathing. Unlike the crowded beaches of popular tourist destinations, here you will find peace, privacy, and an authentic atmosphere that allows you to truly connect with Greek nature and culture.",
+      "We believe a perfect vacation starts with perfect accommodation. That's why we've put a lot of thought into every detail of the house. The fully equipped kitchen allows you to prepare delicious meals from fresh local produce. The comfortable bedrooms ensure a good night's sleep after a day full of experiences. The spacious living room invites you to relax and unwind. All this, together with our personal and warm service, will make your stay unforgettable.",
+      "The location of the house in Pigadi is an excellent starting point for exploring the area. Nearby you will find picturesque villages, fascinating historical sites, and traditional tavernas serving the best of Greek cuisine. This is a rare opportunity to experience the real Greek lifestyle, mingle with the local community, and create memories that will last for years.",
+      "We understand that every guest and family is unique, so we offer maximum flexibility in bookings. Whether you're looking for a short vacation or a longer stay, we'll be happy to tailor the package to your needs. We're always available for questions, recommendations, and advice to ensure you have the best experience. Contact us today and start planning your dream Greek vacation.",
+      ""
+    ]
+  },
+  "gallery": {
+    "title": "Gallery",
+    "categories": {
+      "חדרים": "Rooms",
+      "סלון": "Living Room",
+      "מטבח": "Kitchen",
+      "חדרי רחצה": "Bathrooms",
+      "חוץ": "Outdoors"
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Any questions? Contact us and we’ll get back to you soon.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "submit": "Send",
+      "preferredContactMethodLabel": "How should we contact you?",
+      "preferredContactMethodRequired": "Please select a contact method.",
+      "required": "is required.",
+      "invalidEmail": "Invalid email address.",
+      "messagePlaceholder": "Write your message here..."
+    },
+    "successMessage": "Your message has been sent! We will get back to you soon.",
+    "errorMessage": "There was an error sending your message. Please try again later."
+  },
+  "Booking": {
+    "title": "Book Your Dream Vacation",
+    "form": {
+      "range": "Select Date Range",
+      "adults": "Adults",
+      "children": "Children",
+      "submit": "Submit Booking",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "email": "Email",
+      "specialRequests": "Special Requests",
+      "fullNamePlaceholder": "Enter your full name",
+      "phonePlaceholder": "Enter your phone number",
+      "emailPlaceholder": "Enter your email address",
+      "specialRequestsPlaceholder": "Write any special requests here..."
+    },
+    "successMessage": "Your booking has been successfully submitted! We will contact you soon to confirm.",
+    "errorMessage": "There was an error processing your booking. Please try again later.",
+    "edit": "Edit Booking",
+    "backToHome": "Back to Home",
+    "confirm": "Confirm Booking",
+    "summaryTitle": "Your Booking Summary",
+    "summaryNotFound": "No booking found. Please go back and check availability again.",
+    "personalDetailsTitle": "Enter your personal details",
+    "fields": {
+      "checkIn": "Check-in Date",
+      "checkOut": "Check-out Date",
+      "adults": "Adults",
+      "children": "Children",
+      "price": "Estimated Price",
+      "discount": "Discount",
+      "specialRequests": "Special Requests",
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "email": "Email"
+    },
+    "placeholders": {
+      "fullName": "Enter full name",
+      "phone": "Enter phone number",
+      "email": "Enter email address",
+      "specialRequests": "Write any special requests here..."
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required.",
+      "phoneRequired": "Phone number is required.",
+      "emailRequired": "Email address is required.",
+      "invalidEmail": "Invalid email address.",
+      "adultsRequired": "Please select number of adults.",
+      "childrenRequired": "Please select number of children.",
+      "dateRangeRequired": "Please select a valid date range.",
+      "minAdults": "At least one adult is required.",
+      "maxGuests": "Total number of guests cannot exceed 6.",
+      "minNights": "A minimum of 3 nights is required.",
+      "invalidDateRange": "Check-in date cannot be after check-out date.",
+      "unavailableDates": "The selected range includes unavailable dates."
+    },
+    "confirmation": {
+      "title": "Thank you for your booking! We will contact you soon.",
+      "notFound": "No booking found. Please return to the home page.",
+      "fields": {
+        "checkIn": "Check-in Date:",
+        "checkOut": "Check-out Date:",
+        "adults": "Adults:",
+        "children": "Children:",
+        "specialRequests": "Special Requests:",
+        "fullName": "Full Name:",
+        "phone": "Phone:",
+        "email": "Email:"
+      },
+      "noSpecialRequests": "None",
+      "backToHome": "Back to Home"
+    }
+  },
+  "summary": {
+    "title": "Booking Summary",
+    "description": "Review your booking details before confirming."
   }
 }

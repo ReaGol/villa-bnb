@@ -1,86 +1,18 @@
-import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function AboutPage() {
+  const t = useTranslations("about");
+  const subtitles: string[] = t.raw("subtitles");
+  const descriptions: string[] = t.raw("descriptions");
+
   return (
     <main className='p-8 max-w-4xl mx-auto'>
       <section className='mb-10 text-center'>
-        <h1 className='text-4xl font-bold mb-4'>אודות</h1>
-        <p className='text-lg text-gray-700'>
-          נופש חלומי ביוון שלא הכרתם – המקום המושלם לחופשה בלתי נשכחת
-        </p>
+        <h1 className='text-4xl font-bold mb-4'>{t("title")}</h1>
       </section>
-
-      <section className='space-y-8 text-right leading-relaxed text-gray-800'>
-        <div>
-          <h2 className='text-2xl font-semibold text-green-700 mb-2'>
-            חוויה יוונית אותנטית במרחק נגיעה מהים
-          </h2>
-          <p>
-            נופש חלומי ביוון שלא הכרתם מציע לכם הזדמנות ייחודית לחוות את יוון
-            האמיתית, הרחק מהמולת התיירים. ממוקם במרחק של 80 מטר בלבד מקו החוף
-            המרהיב של פיגאדי, הבית החדש והמודרני שלנו מספק לאורחים חוויה בלתי
-            נשכחת של שלווה, יופי טבעי ונוחות מרבית. עם שני חדרי שינה, שני חדרי
-            אמבטיה, מטבח מאובזר היטב וסלון מרווח, הבית מהווה בסיס מושלם לחופשה
-            משפחתית או לבריחה רומנטית.
-          </p>
-        </div>
-
-        <div>
-          <h2 className='text-2xl font-semibold text-green-700 mb-2'>
-            נוף עוצר נשימה וחופים שלווים
-          </h2>
-          <p>
-            אחד מסימני ההיכר של הנכס שלנו הוא הנוף המרהיב הנשקף ממנו. מהמרפסת
-            הפרטית, תוכלו להתענג על מראה הים הכחול והאופק האינסופי. החופים
-            החוליים והשקטים של פיגאדי מזמינים אתכם לשעות של רגיעה, שחייה ושיזוף.
-            בניגוד לחופים העמוסים של יעדי תיירות פופולריים, כאן תמצאו שקט,
-            פרטיות ואווירה אותנטית שתאפשר לכם להתחבר באמת לטבע ולתרבות היוונית.
-          </p>
-        </div>
-
-        <div>
-          <h2 className='text-2xl font-semibold text-green-700 mb-2'>
-            אירוח ברמה גבוהה ותשומת לב לפרטים
-          </h2>
-          <p>
-            אנו מאמינים שחופשה מושלמת מתחילה במקום לינה מושלם. לכן, השקענו מחשבה
-            רבה בכל פרט בבית. המטבח המאובזר מאפשר לכם להכין ארוחות טעימות מתוצרת
-            מקומית טרייה. חדרי השינה הנוחים מבטיחים שינה ערבה אחרי יום גדוש
-            בחוויות. הסלון המרווח מזמין אתכם להירגע ולהתרענן. כל אלה, יחד עם
-            השירות האישי והלבבי שלנו, יהפכו את שהותכם לבלתי נשכחת.
-          </p>
-        </div>
-
-        <div>
-          <h2 className='text-2xl font-semibold text-green-700 mb-2'>
-            מיקום אסטרטגי לחקירת יוון האותנטית
-          </h2>
-          <p>
-            מיקומו של הבית בפיגאדי הוא נקודת מוצא מצוינת לחקירת האזור. בקרבת
-            מקום תמצאו כפרים ציוריים, אתרים היסטוריים מרתקים וטברנות מסורתיות
-            המגישות את המטעמים הטובים ביותר של המטבח היווני. זו הזדמנות נדירה
-            לחוות את אורח החיים היווני האמיתי, להתערות בקהילה המקומית ולצבור
-            זיכרונות שילוו אתכם לשנים רבות.
-          </p>
-        </div>
-
-        <div>
-          <h2 className='text-2xl font-semibold text-green-700 mb-2'>
-            הזמנה והתאמה אישית לצרכיכם
-          </h2>
-          <p>
-            אנו מבינים שכל אורח וכל משפחה הם ייחודיים, ולכן אנו מציעים גמישות
-            מרבית בהזמנות. בין אם אתם מחפשים חופשה קצרה או שהייה ממושכת יותר,
-            נשמח להתאים את החבילה לצרכים שלכם. אנו זמינים תמיד לשאלות, המלצות
-            ועצות כדי להבטיח שתקבלו את החוויה הטובה ביותר. צרו איתנו קשר עוד
-            היום והתחילו לתכנן את החופשה היוונית של חלומותיכם.
-          </p>
-        </div>
-      </section>
-
-      <section className='mt-12'>
+      <section className='mt-0 mb-10'>
         <h2 className='text-2xl font-bold text-green-700 mb-4 text-center'>
-          איפה אנחנו נמצאים?
+          {subtitles[5]}
         </h2>
         <div className='w-full h-72'>
           <iframe
@@ -91,6 +23,17 @@ export default function AboutPage() {
             referrerPolicy='no-referrer-when-downgrade'
           ></iframe>
         </div>
+      </section>
+
+      <section className='space-y-8 text-right leading-relaxed text-gray-800'>
+        {subtitles.slice(0, 5).map((subtitle, i) => (
+          <div key={i}>
+            <h2 className='text-2xl font-semibold text-green-700 mb-2'>
+              {subtitle}
+            </h2>
+            <p>{descriptions[i]}</p>
+          </div>
+        ))}
       </section>
     </main>
   );
