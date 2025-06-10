@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 
 interface ContactFormData {
   fullName: string;
@@ -12,8 +13,13 @@ interface ContactFormData {
   preferredContactMethod: "phone" | "email";
 }
 
+interface ContactFormProps {
+  locale?: string;
+}
+
 export default function ContactForm() {
   const t = useTranslations("contact");
+  const { locale } = useParams();
 
   const {
     register,
@@ -82,8 +88,9 @@ export default function ContactForm() {
         <input
           type='tel'
           {...register("phone", { required: t("form.phone") + " " + t("form.required") })}
-          className='border p-2 w-full rounded placeholder:text-right'
+          className={`border p-2 w-full rounded ${locale === 'en' ? 'text-left ltr placeholder:text-left' : 'text-right rtl placeholder:text-right'}`}
           placeholder={t("form.phone")}
+          dir={locale === 'en' ? 'ltr' : 'rtl'}
         />
         {errors.phone && (
           <p className='text-red-500 text-sm'>{errors.phone.message}</p>

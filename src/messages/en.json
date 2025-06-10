@@ -19,7 +19,9 @@
       "fullNamePlaceholder": "Enter your full name",
       "phonePlaceholder": "Enter your phone number",
       "emailPlaceholder": "Enter your email address",
-      "specialRequestsPlaceholder": "Write any special requests here..."
+      "specialRequestsPlaceholder": "Write any special requests here...",
+      "adultsPlaceholder": "Enter number of adults",
+      "childrenPlaceholder": "Enter number of children"
     },
     "successMessage": "Your booking has been successfully submitted! We will contact you soon to confirm.",
     "errorMessage": "There was an error processing your booking. Please try again later.",
@@ -183,7 +185,9 @@
       "fullNamePlaceholder": "Enter your full name",
       "phonePlaceholder": "Enter your phone number",
       "emailPlaceholder": "Enter your email address",
-      "specialRequestsPlaceholder": "Write any special requests here..."
+      "specialRequestsPlaceholder": "Write any special requests here...",
+      "adultsPlaceholder": "Enter number of adults",
+      "childrenPlaceholder": "Enter number of children"
     },
     "successMessage": "Your booking has been successfully submitted! We will contact you soon to confirm.",
     "errorMessage": "There was an error processing your booking. Please try again later.",

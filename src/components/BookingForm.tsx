@@ -228,7 +228,7 @@ export default function BookingForm() {
           className='border p-2 w-full rounded'
           min={1}
           max={6}
-          placeholder={t("placeholders.fullName")}
+          placeholder={t("form.adultsPlaceholder")}
         />
         {errors.adults && (
           <p className='text-red-500'>{errors.adults.message}</p>
@@ -247,7 +247,7 @@ export default function BookingForm() {
           className='border p-2 w-full rounded'
           min={0}
           max={6}
-          placeholder={t("form.children")}
+          placeholder={t("form.childrenPlaceholder")}
         />
         {errors.children && (
           <p className='text-red-500'>{errors.children.message}</p>

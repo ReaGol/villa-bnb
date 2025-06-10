@@ -153,7 +153,8 @@ export default function BookingSummaryPage() {
               <div className='flex justify-between border-b pb-2 mt-2'>
                 <span className='font-semibold text-gray-600'>{t("fields.price")}</span>
                 <span>
-                  €{priceDetails.totalPrice} ({priceDetails.discount})
+                  €{priceDetails.totalPrice}
+                  {locale !== "en" && priceDetails.discount ? ` (${priceDetails.discount})` : null}
                 </span>
               </div>
             )}
@@ -186,8 +187,9 @@ export default function BookingSummaryPage() {
             <input
               type='tel'
               {...register("phone", { required: t("validation.phoneRequired") })}
-              className='border p-2 w-full rounded placeholder:text-right'
+              className={`border p-2 w-full rounded ${locale === 'en' ? 'text-left' : 'text-right'} ${locale === 'en' ? 'ltr' : 'rtl'} placeholder:${locale === 'en' ? 'text-left' : 'text-right'}`}
               placeholder={t("placeholders.phone")}
+              dir={locale === 'en' ? 'ltr' : 'rtl'}
             />
             {errors.phone && (
               <p className='text-red-500'>{errors.phone.message}</p>

@@ -19,7 +19,9 @@
       "fullNamePlaceholder": "הכנס שם מלא",
       "phonePlaceholder": "הכנס מספר טלפון",
       "emailPlaceholder": "הכנס כתובת אימייל",
-      "specialRequestsPlaceholder": "כתוב כאן בקשות מיוחדות..."
+      "specialRequestsPlaceholder": "כתוב כאן בקשות מיוחדות...",
+      "adultsPlaceholder": "מספר מבוגרים",
+      "childrenPlaceholder": "מספר ילדים"
     },
     "successMessage": "ההזמנה נשלחה בהצלחה! נחזור אליכם בקרוב לאישור.",
     "errorMessage": "אירעה שגיאה בעיבוד ההזמנה. אנא נסו שוב מאוחר יותר.",
