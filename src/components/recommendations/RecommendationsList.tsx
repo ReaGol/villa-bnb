@@ -60,6 +60,15 @@ export default function RecommendationsList() {
     setIsSubmitting(false);
   };
 
+  if (recommendations.length === 0 && !showForm && !showSuccess && !isSubmitting) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <span className="loader mr-2"></span>
+        <span>{locale === "he" ? "טוען המלצות..." : "Loading recommendations..."}</span>
+      </div>
+    );
+  }
+
   return (
     <div className='space-y-6 relative'>
       {showSuccess && (
