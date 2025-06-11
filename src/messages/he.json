@@ -159,7 +159,7 @@
       "name": "שם",
       "email": "אימייל",
       "phone": "טלפון",
-      "message": "הודעה",
+      "message": "תוכן הודעה",
       "submit": "שלח",
       "preferredContactMethodLabel": "איך ניצור איתך קשר?",
       "preferredContactMethodRequired": "יש לבחור דרך יצירת קשר.",

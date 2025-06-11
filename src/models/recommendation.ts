@@ -4,8 +4,8 @@ const recommendationSchema = new mongoose.Schema({
   name: { type: String, required: true },
   stars: { type: Number, required: true },
   message: {
-    en: { type: String, required: true },
-    he: { type: String, required: true },
+    en: { type: String, required: false }, 
+    he: { type: String, required: false },
   },
   createdAt: { type: Date, default: Date.now },
 });

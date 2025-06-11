@@ -15,7 +15,7 @@ export async function GET(req: Request) {
       _id: rec._id,
       name: rec.name,
       stars: rec.stars,
-      message: rec.message[lang as "he" | "en"] || rec.message.he,
+      message: rec.message, 
       createdAt: rec.createdAt,
     }));
 
@@ -43,7 +43,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "שדות חסרים" }, { status: 400 });
     }
 
-    const newRec = new Recommendation({ name, stars, message });
+    const safeMessage = {
+      he: message.he || "",
+      en: message.en || ""
+    };
+
+    const newRec = new Recommendation({ name, stars, message: safeMessage });
     await newRec.save();
 
     return NextResponse.json({ message: "ההמלצה נשמרה" }, { status: 201 });
@@ -51,7 +56,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "שגיאה בשרת" }, { status: 500 });
   }
 }
-
 
 export async function DELETE(req: Request) {
   const { searchParams } = new URL(req.url);

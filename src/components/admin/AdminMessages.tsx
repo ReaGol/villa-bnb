@@ -28,13 +28,16 @@ export default function AdminMessages() {
   if (messages.length === 0) return <p>אין הודעות להצגה.</p>;
 
   return (
-    <div className='overflow-y-auto max-h-[400px] lg:max-h-none min-h-[300px]'>
+    <div className='overflow-y-auto max-h-[550px] min-h-[300px] w-full px-2'>
       <h2 className='text-xl font-semibold mb-4 text-center text-green-700'>
         הודעות מ'צור קשר'
       </h2>
       <ul className='space-y-4'>
         {messages.map((msg) => (
-          <li key={msg._id} className='border p-4 rounded shadow'>
+          <li
+            key={msg._id}
+            className='border p-4 rounded shadow bg-white break-words'
+          >
             <p className='text-sm text-gray-600 mb-1'>
               <strong>{msg.fullName}</strong> ({msg.email})
             </p>
@@ -59,4 +62,5 @@ export default function AdminMessages() {
       </ul>
     </div>
   );
+  
 }

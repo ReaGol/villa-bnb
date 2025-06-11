@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 interface Recommendation {
   _id: string;
   name: string;
-  message: string;
+  message: string | { he?: string; en?: string };
   stars: number;
   createdAt: string;
 }
@@ -41,7 +41,13 @@ export default function AdminRecommendations() {
     }
   };
 
-  if (loading) return <p>טוען המלצות...</p>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <span className="loader mr-2"></span>
+        <span>טוען המלצות...</span>
+      </div>
+    );
   if (recs.length === 0) return <p>אין המלצות להצגה.</p>;
 
   return (
@@ -58,7 +64,9 @@ export default function AdminRecommendations() {
             <p className='font-semibold'>{rec.name}</p>
             <p className='text-sm text-yellow-500'>⭐ {rec.stars} כוכבים</p>
             <p className='text-sm text-gray-700 mt-2 whitespace-pre-wrap'>
-              {rec.message}
+              {typeof rec.message === "string"
+                ? rec.message
+                : rec.message.he || rec.message.en || ""}
             </p>
             <button
               onClick={() => handleDelete(rec._id)}

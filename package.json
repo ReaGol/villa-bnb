@@ -7,10 +7,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:recommendations": "node --loader ts-node/esm scripts/seedRecommendations.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.509.0",
@@ -33,6 +35,7 @@
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
