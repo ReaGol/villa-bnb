@@ -8,6 +8,7 @@ import AdminCalendar from "@/components/admin/AdminCalendar";
 import AdminMessages from "@/components/admin/AdminMessages";
 import { Booking } from "@/types/booking";
 import AdminRecommendations from "@/components/admin/AdminRecommendations";
+import Link from "next/link";
 
 export default function AdminPage() {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -59,10 +60,17 @@ export default function AdminPage() {
 
   return (
     <main className='p-6'>
+      <div className="flex justify-end mb-4">
+        <Link
+          href="/"
+          className="inline-block bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 transition"
+        >
+          חזרה לדף הבית
+        </Link>
+      </div>
       <h1 className='text-3xl font-bold mb-6 text-center text-green-700'>
         ברוך הבא לפאנל הניהול
       </h1>
-
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
         <div className='bg-white border p-4 rounded shadow-lg transition hover:shadow-2xl hover:-translate-y-1'>
           <AdminCalendar />
