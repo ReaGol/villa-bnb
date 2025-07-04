@@ -15,11 +15,11 @@ export default function ContactPage() {
         <div className='mt-8 text-center text-sm text-gray-500 flex flex-col items-center gap-2'>
           <div className='flex items-center gap-2'>
             <FaPhoneAlt className='text-green-600' />
-            <span>052-5344929</span>
+            <span>+972-52-5344929</span>
           </div>
           <div className='flex items-center gap-2'>
             <FaPhoneAlt className='text-green-600' />
-            <span>050-6209364</span>
+            <span>+972-50-6209364</span>
           </div>
           <div className='mt-2'>✉️ goldintilda@gmail.com</div>
         </div>

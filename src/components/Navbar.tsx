@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,8 +22,8 @@ export default function Navbar() {
   ];
 
   return (
-    <header className='bg-gray-100 shadow-md'>
-      <div className='max-w-7xl mx-auto px-4 py-4 flex justify-between items-center'>
+    <header className='bg-gray-100 shadow-md relative'>
+      <div className='max-w-7xl mx-auto px-4 py-4 flex items-center justify-between'>
         <Link
           href='/'
           className='flex items-center space-x-2 rtl:space-x-reverse'
@@ -44,29 +45,31 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <nav className='hidden md:flex flex-wrap justify-end gap-x-4'>
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className='text-gray-700 hover:text-green-700 font-medium'
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-
-        <button
-          className='md:hidden text-gray-700'
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label='פתח תפריט'
-        >
-          {menuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        <div className='flex items-center gap-x-2'>
+          <nav className='hidden md:flex flex-wrap gap-x-4'>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className='text-gray-700 hover:text-green-700 font-medium'
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+          <LanguageSwitcher />
+          <button
+            className='md:hidden text-gray-700 ml-2'
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label='פתח תפריט'
+          >
+            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
 
       {menuOpen && (
-        <nav className='md:hidden bg-white shadow px-4 py-4 space-y-2 text-right'>
+        <div className='md:hidden bg-white shadow px-4 py-4 space-y-2 text-right'>
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -77,7 +80,7 @@ export default function Navbar() {
               {link.name}
             </Link>
           ))}
-        </nav>
+        </div>
       )}
     </header>
   );

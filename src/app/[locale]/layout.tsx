@@ -1,6 +1,7 @@
 import { NextIntlClientProvider } from "next-intl";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import HtmlDirection from "@/components/HtmlDirection";
 
 
 export default async function LocaleLayout(props: {
@@ -15,6 +16,7 @@ export default async function LocaleLayout(props: {
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
+      <HtmlDirection />
       <Navbar />
       <main className='flex-grow'>{props.children}</main>
       <Footer />
