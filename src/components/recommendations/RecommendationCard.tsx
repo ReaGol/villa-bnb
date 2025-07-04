@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 type Recommendation = {
   name: string;
@@ -22,6 +22,7 @@ export default function RecommendationCard({
   maxLength = 200,
 }: Props) {
   const locale = useLocale();
+  const t = useTranslations("recommendations");
   const [isExpanded, setIsExpanded] = useState(false);
 
   const rawMessage =
@@ -56,7 +57,7 @@ export default function RecommendationCard({
             onClick={() => setIsExpanded(!isExpanded)}
             className='text-green-600 hover:underline font-semibold'
           >
-            {isExpanded ? "הסתר" : "קראו עוד"}
+            {isExpanded ? t("readLess") : t("readMore")}
           </button>
         )}
       </div>

@@ -1,9 +1,23 @@
 import ContactForm from "@/components/ContactForm";
 import { FaPhoneAlt } from "react-icons/fa";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function ContactPage() {
   const t = useTranslations("contact");
+  const locale = useLocale();
+
+  const phones = t.raw("phones") as string[] | undefined;
+  const email = t("email") || "goldintilda@gmail.com";
+
+  const displayNumber = (num: string) => {
+    if (num.startsWith("+972-")) {
+      return "0" + num.slice(5);
+    }
+    return num;
+  };
+
+  const telNumber = (num: string) => num.replace(/-/g, "");
+
   return (
     <main className='flex flex-col items-center justify-start min-h-screen bg-gray-50 px-4 py-6'>
       <div className='w-full max-w-2xl bg-white p-8 rounded-2xl shadow-lg border border-gray-200'>
@@ -13,15 +27,24 @@ export default function ContactPage() {
         </p>
         <ContactForm />
         <div className='mt-8 text-center text-sm text-gray-500 flex flex-col items-center gap-2'>
-          <div className='flex items-center gap-2'>
-            <FaPhoneAlt className='text-green-600' />
-            <span>+972-52-5344929</span>
+          {phones?.map((phone) => (
+            <div
+              key={phone}
+              className={`flex items-center gap-2 ${locale === "he" ? "flex-row-reverse" : ""}`}
+            >
+              <FaPhoneAlt className='text-green-600' />
+              <a
+                href={`tel:${telNumber(phone)}`}
+                dir="ltr"
+                className="underline hover:text-green-700"
+              >
+                {displayNumber(phone)}
+              </a>
+            </div>
+          ))}
+          <div className='mt-2'>
+            ✉️ <a href={`mailto:${email}`} className="underline hover:text-green-700">{email}</a>
           </div>
-          <div className='flex items-center gap-2'>
-            <FaPhoneAlt className='text-green-600' />
-            <span>+972-50-6209364</span>
-          </div>
-          <div className='mt-2'>✉️ goldintilda@gmail.com</div>
         </div>
       </div>
     </main>

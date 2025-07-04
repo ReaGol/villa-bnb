@@ -169,7 +169,12 @@
       "messagePlaceholder": "Write your message here..."
     },
     "successMessage": "Your message has been sent! We will get back to you soon.",
-    "errorMessage": "There was an error sending your message. Please try again later."
+    "errorMessage": "There was an error sending your message. Please try again later.",
+    "phones": [
+      "+972-52-5344929",
+      "+972-50-6209364"
+    ],
+    "email": "goldintilda@gmail.com"
   },
   "Booking": {
     "title": "Book Your Dream Vacation",
