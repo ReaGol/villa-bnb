@@ -1,10 +1,12 @@
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import Recommendation from "@/models/recommendation";
-import { NextResponse } from "next/server";
+import validator from "validator";
+import { getRecommendationSchema } from "@/validators/recommendationSchema";
 
-await connectToDatabase();
+export async function GET(req: NextRequest) {
+  await connectToDatabase();
 
-export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const lang = url.searchParams.get("lang") || "he";
@@ -15,12 +17,13 @@ export async function GET(req: Request) {
       _id: rec._id,
       name: rec.name,
       stars: rec.stars,
-      message: rec.message, 
+      message: rec.message,
       createdAt: rec.createdAt,
     }));
 
     return NextResponse.json(translatedRecs);
   } catch (err) {
+    console.error("Error fetching recommendations:", err);
     return NextResponse.json(
       { message: "שגיאה בשליפת המלצות" },
       { status: 500 }
@@ -28,47 +31,101 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  await connectToDatabase();
+
+  const locale = req.headers.get("accept-language")?.includes("he")
+    ? "he"
+    : "en";
+  const recommendationSchema = getRecommendationSchema(locale);
+
+  let data;
   try {
-    const body = await req.json();
-    const { name, stars, message } = body;
+    data = await req.json();
+  } catch {
+    return NextResponse.json({ message: "Invalid JSON" }, { status: 400 });
+  }
 
-    if (
-      !name ||
-      !stars ||
-      !message ||
-      typeof message !== "object" ||
-      (!message.he && !message.en)
-    ) {
-      return NextResponse.json({ message: "שדות חסרים" }, { status: 400 });
-    }
+  const parseResult = recommendationSchema.safeParse(data);
 
-    const safeMessage = {
-      he: message.he || "",
-      en: message.en || ""
-    };
+  if (!parseResult.success) {
+    return NextResponse.json(
+      {
+        message: "Validation error",
+        errors: parseResult.error.flatten().fieldErrors,
+      },
+      { status: 400 }
+    );
+  }
 
-    const newRec = new Recommendation({ name, stars, message: safeMessage });
+  const sanitizedData = {
+    name: validator.escape(parseResult.data.name),
+    stars: parseResult.data.stars,
+    message: {
+      he: parseResult.data.message.he
+        ? validator.escape(parseResult.data.message.he)
+        : "",
+      en: parseResult.data.message.en
+        ? validator.escape(parseResult.data.message.en)
+        : "",
+    },
+  };
+
+  try {
+    const newRec = new Recommendation(sanitizedData);
     await newRec.save();
 
-    return NextResponse.json({ message: "ההמלצה נשמרה" }, { status: 201 });
+    return NextResponse.json(
+      {
+        message:
+          locale === "he"
+            ? "ההמלצה נשמרה בהצלחה"
+            : "Recommendation saved successfully",
+      },
+      { status: 201 }
+    );
   } catch (err) {
-    return NextResponse.json({ message: "שגיאה בשרת" }, { status: 500 });
+    console.error("Error saving recommendation:", err);
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }
 
-export async function DELETE(req: Request) {
+export async function DELETE(req: NextRequest) {
+  await connectToDatabase();
+
+  const locale = req.headers.get("accept-language")?.includes("he")
+    ? "he"
+    : "en";
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
 
   if (!id) {
-    return NextResponse.json({ message: "לא סופק מזהה" }, { status: 400 });
+    return NextResponse.json(
+      {
+        message: locale === "he" ? "לא סופק מזהה" : "No ID provided",
+      },
+      { status: 400 }
+    );
   }
 
   try {
     await Recommendation.findByIdAndDelete(id);
-    return NextResponse.json({ message: "ההמלצה נמחקה" });
+    return NextResponse.json({
+      message:
+        locale === "he"
+          ? "ההמלצה נמחקה בהצלחה"
+          : "Recommendation deleted successfully",
+    });
   } catch (err) {
-    return NextResponse.json({ message: "שגיאה במחיקה" }, { status: 500 });
+    console.error("Error deleting recommendation:", err);
+    return NextResponse.json(
+      {
+        message:
+          locale === "he"
+            ? "שגיאה במחיקת המלצה"
+            : "Error deleting recommendation",
+      },
+      { status: 500 }
+    );
   }
 }

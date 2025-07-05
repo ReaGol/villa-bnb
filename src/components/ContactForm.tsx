@@ -13,18 +13,15 @@ interface ContactFormData {
   preferredContactMethod: "phone" | "email";
 }
 
-interface ContactFormProps {
-  locale?: string;
-}
-
 export default function ContactForm() {
-  const t = useTranslations("contact");
+  const t = useTranslations();
   const { locale } = useParams();
 
   const {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm<ContactFormData>();
 
@@ -36,31 +33,26 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: data.fullName,
-          email: data.email,
-          message: data.message,
-          phone: data.phone,
-          preferredContactMethod: data.preferredContactMethod,
-        }),
+        body: JSON.stringify(data),
       });
-
-      
+  
       if (res.ok) {
-        
         setIsSubmitted(true);
         setErrorMessage("");
         reset();
-        console.log({
-          fullName: data.fullName,
-          email: data.email,
-          message: data.message,
-          phone: data.phone,
-          preferredContactMethod: data.preferredContactMethod,
-        });
       } else {
         const result = await res.json();
-        setErrorMessage(result.message || "שגיאה בשליחת ההודעה");
+  
+        if (result.errors) {
+          Object.entries(result.errors).forEach(([field, messages]) => {
+            setError(field as keyof ContactFormData, {
+              type: "server",
+              message: Array.isArray(messages) ? messages[0] : messages,
+            });
+          });
+        } else {
+          setErrorMessage(result.message || "שגיאה בשליחת ההודעה");
+        }
       }
     } catch (err) {
       console.error("שגיאה בשליחת ההודעה:", err);
@@ -68,15 +60,20 @@ export default function ContactForm() {
     }
   };
   
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
       <div>
-        <label className='block mb-2 font-bold'>{t("form.name") + ":"}</label>
+        <label className='block mb-2 font-bold'>
+          {t("contact.form.name") + ":"}
+        </label>
         <input
           type='text'
-          {...register("fullName", { required: t("form.name") + " " + t("form.required") })}
+          {...register("fullName", {
+            required: t("validation.fullNameRequired"),
+          })}
           className='border p-2 w-full rounded'
-          placeholder={t("form.name")}
+          placeholder={t("contact.form.name")}
         />
         {errors.fullName && (
           <p className='text-red-500 text-sm'>{errors.fullName.message}</p>
@@ -84,13 +81,19 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className='block mb-2 font-bold'>{t("form.phone") + ":"}</label>
+        <label className='block mb-2 font-bold'>
+          {t("contact.form.phone") + ":"}
+        </label>
         <input
           type='tel'
-          {...register("phone", { required: t("form.phone") + " " + t("form.required") })}
-          className={`border p-2 w-full rounded ${locale === 'en' ? 'text-left ltr placeholder:text-left' : 'text-right rtl placeholder:text-right'}`}
-          placeholder={t("form.phone")}
-          dir={locale === 'en' ? 'ltr' : 'rtl'}
+          {...register("phone", { required: t("validation.phoneRequired") })}
+          className={`border p-2 w-full rounded ${
+            locale === "en"
+              ? "text-left ltr placeholder:text-left"
+              : "text-right rtl placeholder:text-right"
+          }`}
+          placeholder={t("contact.form.phone")}
+          dir={locale === "en" ? "ltr" : "rtl"}
         />
         {errors.phone && (
           <p className='text-red-500 text-sm'>{errors.phone.message}</p>
@@ -98,18 +101,20 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className='block mb-2 font-bold'>{t("form.email") + ":"}</label>
+        <label className='block mb-2 font-bold'>
+          {t("contact.form.email") + ":"}
+        </label>
         <input
           type='email'
           {...register("email", {
-            required: t("form.email") + " " + t("form.required"),
+            required: t("validation.emailRequired"),
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: t("form.invalidEmail"),
+              message: t("validation.invalidEmail"),
             },
           })}
           className='border p-2 w-full rounded'
-          placeholder={t("form.email")}
+          placeholder={t("contact.form.email")}
         />
         {errors.email && (
           <p className='text-red-500 text-sm'>{errors.email.message}</p>
@@ -117,39 +122,46 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className='block mb-2 font-bold'>{t("form.message") + ":"}</label>
+        <label className='block mb-2 font-bold'>
+          {t("contact.form.message") + ":"}
+        </label>
         <textarea
-          {...register("message", { required: t("form.message") + " " + t("form.required") })}
+          {...register("message", {
+            required: t("validation.messageRequired"),
+          })}
           className='border p-2 w-full rounded'
           rows={4}
-          placeholder={t("form.messagePlaceholder")}
+          placeholder={t("contact.form.messagePlaceholder")}
         />
         {errors.message && (
           <p className='text-red-500 text-sm'>{errors.message.message}</p>
         )}
       </div>
+
       <div>
-        <label className='block mb-2 font-bold'>{t("form.preferredContactMethodLabel")}</label>
+        <label className='block mb-2 font-bold'>
+          {t("contact.form.preferredContactMethodLabel")}
+        </label>
         <div className='space-y-2'>
           <label className='flex items-center gap-2'>
             <input
               type='radio'
               value='phone'
               {...register("preferredContactMethod", {
-                required: t("form.preferredContactMethodRequired"),
+                required: t("validation.preferredContactMethodRequired"),
               })}
             />
-            {t("form.phone")}
+            {t("contact.form.phone")}
           </label>
           <label className='flex items-center gap-2'>
             <input
               type='radio'
               value='email'
               {...register("preferredContactMethod", {
-                required: t("form.preferredContactMethodRequired"),
+                required: t("validation.preferredContactMethodRequired"),
               })}
             />
-            {t("form.email")}
+            {t("contact.form.email")}
           </label>
         </div>
         {errors.preferredContactMethod && (
@@ -163,12 +175,12 @@ export default function ContactForm() {
         type='submit'
         className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
       >
-        {t("form.submit")}
+        {t("contact.form.submit")}
       </button>
 
       {isSubmitted && (
         <p className='text-green-600 mt-4 text-center'>
-          {t("successMessage")}
+          {t("contact.successMessage")}
         </p>
       )}
 

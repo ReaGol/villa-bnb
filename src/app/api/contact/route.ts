@@ -1,24 +1,58 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import ContactMessage from "@/models/contactMessage";
+import validator from "validator";
+import { getContactSchema } from "@/validators/contactMessageSchema";
 
 export async function POST(req: NextRequest) {
   await connectToDatabase();
-  const { fullName, email, message, phone, preferredContactMethod } =
-    await req.json();
 
-  if (!fullName || !email || !message || !phone || !preferredContactMethod) {
-    return NextResponse.json({ message: "שדות חובה חסרים" }, { status: 400 });
+  const locale = req.headers.get("accept-language")?.includes("he")
+    ? "he"
+    : "en";
+  const contactSchema = getContactSchema(locale);
+
+  let data;
+  try {
+    data = await req.json();
+  } catch {
+    return NextResponse.json({ message: "Invalid JSON" }, { status: 400 });
   }
+
+  const parseResult = contactSchema.safeParse(data);
+
+  if (!parseResult.success) {
+    return NextResponse.json(
+      {
+        message:
+          locale === "he" ? "שגיאה באימות הנתונים שנשלחו" : "Validation error",
+        errors: parseResult.error.flatten().fieldErrors,
+      },
+      { status: 400 }
+    );
+  }
+
+  const sanitizedData = {
+    fullName: validator.escape(parseResult.data.fullName),
+    email: validator.normalizeEmail(parseResult.data.email) || "",
+    message: validator.escape(parseResult.data.message),
+    phone: validator.escape(parseResult.data.phone),
+    preferredContactMethod: parseResult.data.preferredContactMethod,
+  };
 
   try {
-    await ContactMessage.create({ fullName, email, message, phone, preferredContactMethod });
+    await ContactMessage.create(sanitizedData);
     // TODO: send email to admin
-    return NextResponse.json({ message: "ההודעה נשלחה בהצלחה" });
+    return NextResponse.json({
+      message:
+        locale === "he" ? "ההודעה נשלחה בהצלחה" : "Message sent successfully",
+    });
   } catch (error) {
     console.error("שגיאה בשליחת הודעה:", error);
-    return NextResponse.json({ message: "שגיאה בשרת" }, { status: 500 });
-  }
+    return NextResponse.json(
+      { message: locale === "he" ? "שגיאה בשרת" : "Server error" },
+      { status: 500 }
+    );  }
 }
 
 export async function GET() {

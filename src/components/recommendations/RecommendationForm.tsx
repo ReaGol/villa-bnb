@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 type NewRecommendation = {
   name: string;
   stars: number;
-  message: string; 
+  message: string;
 };
 
 type RecommendationPayload = {
@@ -24,32 +24,60 @@ type Props = {
 
 export default function RecommendationForm({ onAdd }: Props) {
   const t = useTranslations("recommendations");
+
   const [formData, setFormData] = useState<NewRecommendation>({
     name: "",
     stars: 5,
     message: "",
   });
 
+  const [errors, setErrors] = useState<{
+    name?: string;
+    message?: string;
+    stars?: string;
+  }>({});
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: undefined }); // clear error when user types
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.message) return;
+
+    const newErrors: { name?: string; message?: string; stars?: string } = {};
+
+    if (!formData.name || formData.name.trim().length < 2) {
+      newErrors.name = t("error.validation.nameRequired");
+    }
+
+    if (!formData.message || formData.message.trim().length < 5) {
+      newErrors.message = t("error.validation.messageRequired");
+    }
+
+    const starsValue = Number(formData.stars);
+    if (isNaN(starsValue) || starsValue < 1 || starsValue > 5) {
+      newErrors.stars = t("error.validation.starsRequired");
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     const payload: RecommendationPayload = {
-      name: formData.name,
-      stars: Number(formData.stars),
+      name: formData.name.trim(),
+      stars: starsValue,
       message: {
-        he: formData.message, 
+        he: formData.message.trim(),
       },
     };
 
     onAdd?.(payload);
     setFormData({ name: "", stars: 5, message: "" });
+    setErrors({});
   };
 
   return (
@@ -71,6 +99,9 @@ export default function RecommendationForm({ onAdd }: Props) {
           onChange={handleChange}
           placeholder={t("form.namePlaceholder")}
         />
+        {errors.name && (
+          <p className='text-red-600 text-sm mt-1'>{errors.name}</p>
+        )}
       </div>
 
       <div>
@@ -84,6 +115,9 @@ export default function RecommendationForm({ onAdd }: Props) {
           value={formData.stars}
           onChange={handleChange}
         />
+        {errors.stars && (
+          <p className='text-red-600 text-sm mt-1'>{errors.stars}</p>
+        )}
       </div>
 
       <div>
@@ -96,6 +130,9 @@ export default function RecommendationForm({ onAdd }: Props) {
           onChange={handleChange}
           placeholder={t("form.messagePlaceholder")}
         />
+        {errors.message && (
+          <p className='text-red-600 text-sm mt-1'>{errors.message}</p>
+        )}
       </div>
 
       <button

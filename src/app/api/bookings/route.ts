@@ -1,47 +1,51 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import Booking from "@/models/booking";
+import validator from "validator";
+import { getGuestBookingSchema } from "@/validators/bookingSchema";
 
 export async function POST(request: NextRequest) {
   try {
     await connectToDatabase();
 
-    const data = await request.json();
+    const locale = request.headers.get("accept-language")?.includes("he")
+      ? "he"
+      : "en";
+    const bookingSchema = getGuestBookingSchema(locale);
 
-    const {
-      fullName,
-      email,
-      phone,
-      checkIn,
-      checkOut,
-      adults,
-      children,
-      specialRequests,
-      createdBy = "guest",
-    } = data;
-
-    if (
-      !fullName ||
-      !email ||
-      !phone ||
-      !checkIn ||
-      !checkOut ||
-      !adults ||
-      children === undefined
-    ) {
-      return NextResponse.json({ message: "שדות חובה חסרים" }, { status: 400 });
+    let data;
+    try {
+      data = await request.json();
+    } catch {
+      return NextResponse.json({ message: "Invalid JSON" }, { status: 400 });
     }
 
-    if (adults < 1) {
+    const parseResult = bookingSchema.safeParse(data);
+
+    if (!parseResult.success) {
       return NextResponse.json(
-        { message: "לפחות מבוגר אחד נדרש" },
+        {
+          message: "Validation error",
+          errors: parseResult.error.flatten().fieldErrors,
+        },
         { status: 400 }
       );
     }
 
+    const sanitizedData = {
+      ...parseResult.data,
+      fullName: validator.escape(parseResult.data.fullName),
+      email: validator.normalizeEmail(parseResult.data.email) || "",
+      phone: validator.escape(parseResult.data.phone),
+      specialRequests: parseResult.data.specialRequests
+        ? validator.escape(parseResult.data.specialRequests)
+        : undefined,
+    };
+
+    const newCheckIn = new Date(sanitizedData.checkIn);
+    const newCheckOut = new Date(sanitizedData.checkOut);
+
     const existingBookings = await Booking.find();
-    const newCheckIn = new Date(checkIn);
-    const newCheckOut = new Date(checkOut);
 
     const hasConflict = existingBookings.some((booking) => {
       const existingCheckIn = new Date(booking.checkIn);
@@ -51,31 +55,35 @@ export async function POST(request: NextRequest) {
 
     if (hasConflict) {
       return NextResponse.json(
-        { message: "יש חפיפה עם הזמנה קיימת" },
+        {
+          message:
+            locale === "he"
+              ? "יש חפיפה עם הזמנה קיימת"
+              : "Booking dates conflict with an existing booking",
+        },
         { status: 409 }
       );
     }
 
     const newBooking = new Booking({
-      fullName,
-      email,
-      phone,
-      checkIn: new Date(checkIn),
-      checkOut: new Date(checkOut),
-      adults,
-      children,
-      specialRequests,
-      createdBy,
+      ...sanitizedData,
+      checkIn: newCheckIn,
+      checkOut: newCheckOut,
     });
 
     await newBooking.save();
 
     return NextResponse.json(
-      { message: "ההזמנה התקבלה בהצלחה" },
+      {
+        message:
+          locale === "he"
+            ? "ההזמנה התקבלה בהצלחה"
+            : "Booking received successfully",
+      },
       { status: 201 }
     );
   } catch (error) {
     console.error("שגיאה בהוספת הזמנה:", error);
-    return NextResponse.json({ message: "שגיאה בשרת" }, { status: 500 });
+    return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

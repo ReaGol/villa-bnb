@@ -1,4 +1,21 @@
 {
+  "validation": {
+    "fullNameRequired": "Full name is required.",
+    "phoneRequired": "Phone number is required.",
+    "emailRequired": "Email address is required.",
+    "invalidEmail": "Invalid email address.",
+    "adultsRequired": "Please select number of adults.",
+    "childrenRequired": "Please select number of children.",
+    "dateRangeRequired": "Please select a valid date range.",
+    "minAdults": "At least one adult is required.",
+    "maxGuests": "Total number of guests cannot exceed 6.",
+    "minNights": "A minimum of 3 nights is required.",
+    "invalidDateRange": "Check-in date cannot be after check-out date.",
+    "unavailableDates": "The selected range includes unavailable dates.",
+    "starsRequired": "Stars are required.",
+    "messageRequired": "Message is required.",
+    "preferredContactMethodRequired": "Please select a contact method."
+  },
   "home": {
     "heroTitle": "A Dream Vacation in Greece You Didn't Know About",
     "heroSubtitle": "The perfect place for an unforgettable holiday",
@@ -48,20 +65,6 @@
       "phone": "Enter phone number",
       "email": "Enter email address",
       "specialRequests": "Write any special requests here..."
-    },
-    "validation": {
-      "fullNameRequired": "Full name is required.",
-      "phoneRequired": "Phone number is required.",
-      "emailRequired": "Email address is required.",
-      "invalidEmail": "Invalid email address.",
-      "adultsRequired": "Please select number of adults.",
-      "childrenRequired": "Please select number of children.",
-      "dateRangeRequired": "Please select a valid date range.",
-      "minAdults": "At least one adult is required.",
-      "maxGuests": "Total number of guests cannot exceed 6.",
-      "minNights": "A minimum of 3 nights is required.",
-      "invalidDateRange": "Check-in date cannot be after check-out date.",
-      "unavailableDates": "The selected range includes unavailable dates."
     },
     "confirmation": {
       "title": "Thank you for your booking! We will contact you soon.",
@@ -116,12 +119,12 @@
       "viewAll": "View all recommendations"
     },
     "error": {
-      "network": "Network error, please try again later.",
       "validation": {
         "nameRequired": "Name is required.",
-        "messageRequired": "Recommendation is required.",
-        "starsRequired": "Stars are required."
-      }
+        "messageRequired": "Message must be at least 5 characters long.",
+        "starsRequired": "Stars rating must be between 1 and 5."
+      },
+      "network": "Network error, please try again later."
     }
   },
   "about": {
@@ -170,86 +173,8 @@
     },
     "successMessage": "Your message has been sent! We will get back to you soon.",
     "errorMessage": "There was an error sending your message. Please try again later.",
-    "phones": [
-      "+972-52-5344929",
-      "+972-50-6209364"
-    ],
+    "phones": ["+972-52-5344929", "+972-50-6209364"],
     "email": "goldintilda@gmail.com"
-  },
-  "Booking": {
-    "title": "Book Your Dream Vacation",
-    "form": {
-      "range": "Select Date Range",
-      "adults": "Adults",
-      "children": "Children",
-      "submit": "Submit Booking",
-      "fullName": "Full Name",
-      "phone": "Phone",
-      "email": "Email",
-      "specialRequests": "Special Requests",
-      "fullNamePlaceholder": "Enter your full name",
-      "phonePlaceholder": "Enter your phone number",
-      "emailPlaceholder": "Enter your email address",
-      "specialRequestsPlaceholder": "Write any special requests here...",
-      "adultsPlaceholder": "Enter number of adults",
-      "childrenPlaceholder": "Enter number of children"
-    },
-    "successMessage": "Your booking has been successfully submitted! We will contact you soon to confirm.",
-    "errorMessage": "There was an error processing your booking. Please try again later.",
-    "edit": "Edit Booking",
-    "backToHome": "Back to Home",
-    "confirm": "Confirm Booking",
-    "summaryTitle": "Your Booking Summary",
-    "summaryNotFound": "No booking found. Please go back and check availability again.",
-    "personalDetailsTitle": "Enter your personal details",
-    "fields": {
-      "checkIn": "Check-in Date",
-      "checkOut": "Check-out Date",
-      "adults": "Adults",
-      "children": "Children",
-      "price": "Estimated Price",
-      "discount": "Discount",
-      "specialRequests": "Special Requests",
-      "fullName": "Full Name",
-      "phone": "Phone",
-      "email": "Email"
-    },
-    "placeholders": {
-      "fullName": "Enter full name",
-      "phone": "Enter phone number",
-      "email": "Enter email address",
-      "specialRequests": "Write any special requests here..."
-    },
-    "validation": {
-      "fullNameRequired": "Full name is required.",
-      "phoneRequired": "Phone number is required.",
-      "emailRequired": "Email address is required.",
-      "invalidEmail": "Invalid email address.",
-      "adultsRequired": "Please select number of adults.",
-      "childrenRequired": "Please select number of children.",
-      "dateRangeRequired": "Please select a valid date range.",
-      "minAdults": "At least one adult is required.",
-      "maxGuests": "Total number of guests cannot exceed 6.",
-      "minNights": "A minimum of 3 nights is required.",
-      "invalidDateRange": "Check-in date cannot be after check-out date.",
-      "unavailableDates": "The selected range includes unavailable dates."
-    },
-    "confirmation": {
-      "title": "Thank you for your booking! We will contact you soon.",
-      "notFound": "No booking found. Please return to the home page.",
-      "fields": {
-        "checkIn": "Check-in Date:",
-        "checkOut": "Check-out Date:",
-        "adults": "Adults:",
-        "children": "Children:",
-        "specialRequests": "Special Requests:",
-        "fullName": "Full Name:",
-        "phone": "Phone:",
-        "email": "Email:"
-      },
-      "noSpecialRequests": "None",
-      "backToHome": "Back to Home"
-    }
   },
   "summary": {
     "title": "Booking Summary",

@@ -1,4 +1,21 @@
 {
+  "validation": {
+    "fullNameRequired": "יש להזין שם מלא.",
+    "phoneRequired": "יש להזין מספר טלפון.",
+    "emailRequired": "יש להזין כתובת אימייל.",
+    "invalidEmail": "כתובת אימייל לא תקינה.",
+    "adultsRequired": "יש לבחור מספר מבוגרים.",
+    "childrenRequired": "יש לבחור מספר ילדים.",
+    "dateRangeRequired": "יש לבחור טווח תאריכים תקין.",
+    "minAdults": "לפחות מבוגר אחד חייב להיות בהזמנה.",
+    "maxGuests": "סה\"כ מספר האורחים לא יכול להיות יותר מ-6.",
+    "minNights": "יש להזמין לפחות 3 לילות.",
+    "invalidDateRange": "תאריך כניסה לא יכול להיות אחרי תאריך יציאה.",
+    "unavailableDates": "הטווח שבחרת כולל תאריכים לא זמינים.",
+    "starsRequired": "יש לבחור דירוג כוכבים.",
+    "messageRequired": "יש להזין הודעה.",
+    "preferredContactMethodRequired": "יש לבחור דרך יצירת קשר."
+  },
   "home": {
     "heroTitle": "נופש חלומי ביוון שלא הכרתם",
     "heroSubtitle": "המקום המושלם לחופשה בלתי נשכחת",
@@ -22,6 +39,20 @@
       "specialRequestsPlaceholder": "כתוב כאן בקשות מיוחדות...",
       "adultsPlaceholder": "מספר מבוגרים",
       "childrenPlaceholder": "מספר ילדים"
+    },
+    "validation": {
+      "fullNameRequired": "יש להזין שם מלא.",
+      "phoneRequired": "יש להזין מספר טלפון.",
+      "emailRequired": "יש להזין כתובת אימייל.",
+      "invalidEmail": "כתובת אימייל לא תקינה.",
+      "adultsRequired": "יש לבחור מספר מבוגרים.",
+      "childrenRequired": "יש לבחור מספר ילדים.",
+      "dateRangeRequired": "יש לבחור טווח תאריכים תקין.",
+      "minAdults": "לפחות מבוגר אחד חייב להיות בהזמנה.",
+      "maxGuests": "סה\"כ מספר האורחים לא יכול להיות יותר מ-6.",
+      "minNights": "יש להזמין לפחות 3 לילות.",
+      "invalidDateRange": "תאריך כניסה לא יכול להיות אחרי תאריך יציאה.",
+      "unavailableDates": "הטווח שבחרת כולל תאריכים לא זמינים."
     },
     "successMessage": "ההזמנה נשלחה בהצלחה! נחזור אליכם בקרוב לאישור.",
     "errorMessage": "אירעה שגיאה בעיבוד ההזמנה. אנא נסו שוב מאוחר יותר.",
@@ -49,20 +80,6 @@
       "email": "הכנס כתובת אימייל",
       "specialRequests": "כתוב כאן בקשות מיוחדות..."
     },
-    "validation": {
-      "fullNameRequired": "יש להזין שם מלא.",
-      "phoneRequired": "יש להזין מספר טלפון.",
-      "emailRequired": "יש להזין כתובת אימייל.",
-      "invalidEmail": "כתובת אימייל לא תקינה.",
-      "adultsRequired": "יש לבחור מספר מבוגרים.",
-      "childrenRequired": "יש לבחור מספר ילדים.",
-      "dateRangeRequired": "יש לבחור טווח תאריכים תקין.",
-      "minAdults": "לפחות מבוגר אחד חייב להיות בהזמנה.",
-      "maxGuests": "סה\"כ מספר האורחים לא יכול להיות יותר מ-6.",
-      "minNights": "יש להזמין לפחות 3 לילות.",
-      "invalidDateRange": "תאריך כניסה לא יכול להיות אחרי תאריך יציאה.",
-      "unavailableDates": "הטווח שבחרת כולל תאריכים לא זמינים."
-    },
     "confirmation": {
       "title": "תודה על הזמנתך! ניצור עמך קשר בהקדם",
       "notFound": "לא נמצאה הזמנה. אנא חזור לדף הבית.",
@@ -76,7 +93,8 @@
         "phone": "טלפון:",
         "email": "אימייל:"
       },
-      "noSpecialRequests": "אין"
+      "noSpecialRequests": "אין",
+      "backToHome": "חזרה לדף הבית"
     }
   },
   "navbar": {
@@ -169,10 +187,7 @@
     },
     "successMessage": "ההודעה נשלחה! נחזור אליכם בקרוב.",
     "errorMessage": "אירעה שגיאה בשליחת ההודעה. אנא נסו שוב מאוחר יותר.",
-    "phones": [
-      "+972-52-5344929",
-      "+972-50-6209364"
-    ],
+    "phones": ["+972-52-5344929", "+972-50-6209364"],
     "email": "goldintilda@gmail.com"
   },
   "summary": {

@@ -35,9 +35,13 @@ export default function RecommendationCard({
     isExpanded || !isLong ? rawMessage : rawMessage.slice(0, maxLength) + "...";
 
   return (
-    <div className='bg-white p-6 rounded shadow text-right flex flex-col justify-between h-full'>
+    <div className='bg-white p-6 rounded shadow flex flex-col justify-between h-full'>
       <div className='flex justify-between items-center mb-4'>
-        <p className='font-bold text-green-700 text-lg'>
+        <p
+          className={`font-bold text-green-700 text-lg ${
+            locale === "he" ? "text-right" : "text-left"
+          }`}
+        >
           {recommendation.name}
         </p>
         <div className='text-yellow-400 text-xl flex-shrink-0'>

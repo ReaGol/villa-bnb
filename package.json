@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:recommendations": "node --loader ts-node/esm scripts/seedRecommendations.ts"
+    "seed:recommendations": "node --loader ts-node/esm scripts/seedRecommendations.ts",
+    "test:api-validation": "node --loader ts-node/esm scripts/testApiValidation.ts"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.7.0",
@@ -35,6 +36,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/validator": "^13.15.2",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.1.5",

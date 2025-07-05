@@ -39,7 +39,7 @@ function getDatesBetween(start: Date, end: Date): Date[] {
 }
 
 export default function BookingForm() {
-  const t = useTranslations("booking");
+  const t = useTranslations();
   const {
     register,
     handleSubmit,
@@ -151,7 +151,7 @@ export default function BookingForm() {
     >
       <div>
         <label className='block mb-4 font-bold text-center text-xl'>
-          {t("form.range")}
+          {t("booking.form.range")}
         </label>
         <div className='flex justify-center'>
           <div className='w-full max-w-lg bg-white rounded-lg p-4 shadow'>
@@ -202,13 +202,13 @@ export default function BookingForm() {
                   excludeDates={unavailableDates}
                   inline
                   dateFormat='dd/MM/yyyy'
-                  placeholderText={t("form.range")}
+                  placeholderText={t("booking.form.range")}
                   className='border p-2 w-full'
                 />
               )}
             />
             {errors.dateRange && (
-              <p className='text-red-500 text-center mt-2'>
+              <p className='text-red-500 mt-1 text-center'>
                 {errors.dateRange.message}
               </p>
             )}
@@ -216,9 +216,7 @@ export default function BookingForm() {
         </div>
       </div>
       <div>
-        <label className='block mb-2 font-bold'>
-          {t("form.adults") + ":"}
-        </label>
+        <label className='block mb-2 font-bold'>{t("booking.form.adults") + ":"}</label>
         <input
           type='number'
           {...register("adults", {
@@ -228,7 +226,7 @@ export default function BookingForm() {
           className='border p-2 w-full rounded'
           min={1}
           max={6}
-          placeholder={t("form.adultsPlaceholder")}
+          placeholder={t("booking.form.adultsPlaceholder")}
         />
         {errors.adults && (
           <p className='text-red-500'>{errors.adults.message}</p>
@@ -236,7 +234,7 @@ export default function BookingForm() {
       </div>
       <div>
         <label className='block mb-2 font-bold'>
-          {t("form.children") + ":"}
+          {t("booking.form.children") + ":"}
         </label>
         <input
           type='number'
@@ -247,7 +245,7 @@ export default function BookingForm() {
           className='border p-2 w-full rounded'
           min={0}
           max={6}
-          placeholder={t("form.childrenPlaceholder")}
+          placeholder={t("booking.form.childrenPlaceholder")}
         />
         {errors.children && (
           <p className='text-red-500'>{errors.children.message}</p>
@@ -257,7 +255,7 @@ export default function BookingForm() {
         type='submit'
         className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
       >
-        {t("form.submit")}
+        {t("booking.form.submit")}
       </button>
     </form>
   );

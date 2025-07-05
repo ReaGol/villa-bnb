@@ -22,7 +22,7 @@ interface PersonalDetails {
 }
 
 export default function BookingSummaryPage() {
-  const t = useTranslations("booking");
+  const t = useTranslations();
   const locale = useLocale();
   const [bookingInfo, setBookingInfo] = useState<BookingInfo | null>(null);
   const [priceDetails, setPriceDetails] = useState<{
@@ -92,12 +92,12 @@ export default function BookingSummaryPage() {
       phone: data.phone,
       checkIn: bookingInfo.checkIn,
       checkOut: bookingInfo.checkOut,
-      adults: bookingInfo.adults,
-      children: bookingInfo.children,
+      adults: Number(bookingInfo.adults), 
+      children: Number(bookingInfo.children),
       specialRequests: data.specialRequests,
       createdBy: "guest",
     };
-    
+
     const res = await fetch("/api/bookings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -105,14 +105,13 @@ export default function BookingSummaryPage() {
     });
 
     if (res.ok) {
-      alert(t("successMessage"));
+      alert(t("booking.successMessage"));
       Cookies.set("confirmedBooking", JSON.stringify(payload), { expires: 7 });
-
       Cookies.remove("bookingInfo");
       router.push("/booking/confirmation");
     } else {
       const result = await res.json();
-      alert(result.message || t("errorMessage"));
+      alert(result.message || t("booking.errorMessage"));
     }
   };
 
@@ -120,76 +119,100 @@ export default function BookingSummaryPage() {
     <main className='flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-10'>
       <div className='bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg border'>
         <h1 className='text-3xl font-bold text-green-700 mb-6 text-center'>
-          {t("summaryTitle")}
+          {t("booking.summaryTitle")}
         </h1>
 
         {bookingInfo ? (
           <div className='space-y-4 text-lg mb-6'>
             <div className='flex justify-between border-b pb-2'>
-              <span className='font-semibold text-gray-600'>{t("fields.checkIn")}</span>
+              <span className='font-semibold text-gray-600'>
+                {t("booking.fields.checkIn")}
+              </span>
               <span>
                 {new Date(bookingInfo.checkIn).toLocaleDateString("he-IL")}
               </span>
             </div>
 
             <div className='flex justify-between border-b pb-2'>
-              <span className='font-semibold text-gray-600'>{t("fields.checkOut")}</span>
+              <span className='font-semibold text-gray-600'>
+                {t("booking.fields.checkOut")}
+              </span>
               <span>
                 {new Date(bookingInfo.checkOut).toLocaleDateString("he-IL")}
               </span>
             </div>
 
             <div className='flex justify-between border-b pb-2'>
-              <span className='font-semibold text-gray-600'>{t("fields.adults")}</span>
+              <span className='font-semibold text-gray-600'>
+                {t("booking.fields.adults")}
+              </span>
               <span>{bookingInfo.adults}</span>
             </div>
 
             <div className='flex justify-between border-b pb-2'>
-              <span className='font-semibold text-gray-600'>{t("fields.children")}</span>
+              <span className='font-semibold text-gray-600'>
+                {t("booking.fields.children")}
+              </span>
               <span>{bookingInfo.children}</span>
             </div>
 
             {priceDetails && (
               <div className='flex justify-between border-b pb-2 mt-2'>
-                <span className='font-semibold text-gray-600'>{t("fields.price")}</span>
+                <span className='font-semibold text-gray-600'>
+                  {t("booking.fields.price")}
+                </span>
                 <span>
                   €{priceDetails.totalPrice}
-                  {locale !== "en" && priceDetails.discount ? ` (${priceDetails.discount})` : null}
+                  {locale !== "en" && priceDetails.discount
+                    ? ` (${priceDetails.discount})`
+                    : null}
                 </span>
               </div>
             )}
           </div>
         ) : (
           <p className='text-red-500 text-center mb-6'>
-            {t("summaryNotFound")}
+            {t("booking.summaryNotFound")}
           </p>
         )}
 
         <h2 className='text-2xl font-bold text-green-700 mb-4 text-center'>
-          {t("personalDetailsTitle")}
+          {t("booking.personalDetailsTitle")}
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
           <div>
-            <label className='block mb-2 font-bold'>{t("form.fullName") + ":"}</label>
+            <label className='block mb-2 font-bold'>
+              {t("booking.form.fullName") + ":"}
+            </label>
             <input
               type='text'
-              {...register("fullName", { required: t("validation.fullNameRequired") })}
+              {...register("fullName", {
+                required: t("validation.fullNameRequired"),
+              })}
               className='border p-2 w-full rounded'
-              placeholder={t("placeholders.fullName")}
+              placeholder={t("booking.placeholders.fullName")}
             />
             {errors.fullName && (
               <p className='text-red-500'>{errors.fullName.message}</p>
             )}
           </div>
           <div>
-            <label className='block mb-2 font-bold'>{t("form.phone") + ":"}</label>
+            <label className='block mb-2 font-bold'>
+              {t("booking.form.phone") + ":"}
+            </label>
             <input
               type='tel'
-              {...register("phone", { required: t("validation.phoneRequired") })}
-              className={`border p-2 w-full rounded ${locale === 'en' ? 'text-left' : 'text-right'} ${locale === 'en' ? 'ltr' : 'rtl'} placeholder:${locale === 'en' ? 'text-left' : 'text-right'}`}
-              placeholder={t("placeholders.phone")}
-              dir={locale === 'en' ? 'ltr' : 'rtl'}
+              {...register("phone", {
+                required: t("validation.phoneRequired"),
+              })}
+              className={`border p-2 w-full rounded ${
+                locale === "en" ? "text-left" : "text-right"
+              } ${locale === "en" ? "ltr" : "rtl"} placeholder:${
+                locale === "en" ? "text-left" : "text-right"
+              }`}
+              placeholder={t("booking.placeholders.phone")}
+              dir={locale === "en" ? "ltr" : "rtl"}
             />
             {errors.phone && (
               <p className='text-red-500'>{errors.phone.message}</p>
@@ -197,24 +220,31 @@ export default function BookingSummaryPage() {
           </div>
 
           <div>
-            <label className='block mb-2 font-bold'>{t("form.email") + ":"}</label>
+            <label className='block mb-2 font-bold'>
+              {t("booking.form.email") + ":"}
+            </label>
             <input
               type='email'
-              {...register("email", { required: t("validation.emailRequired") })}
+              {...register("email", {
+                required: t("validation.emailRequired"),
+              })}
               className='border p-2 w-full rounded'
-              placeholder={t("placeholders.email")}
+              placeholder={t("booking.placeholders.email")}
             />
             {errors.email && (
               <p className='text-red-500'>{errors.email.message}</p>
             )}
           </div>
+
           <div>
-            <label className='block mb-2 font-bold'>{t("form.specialRequests") + ":"}</label>
+            <label className='block mb-2 font-bold'>
+              {t("booking.form.specialRequests") + ":"}
+            </label>
             <textarea
               {...register("specialRequests")}
               className='border p-2 w-full rounded'
               rows={3}
-              placeholder={t("placeholders.specialRequests")}
+              placeholder={t("booking.placeholders.specialRequests")}
             />
           </div>
 
@@ -222,7 +252,7 @@ export default function BookingSummaryPage() {
             type='submit'
             className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
           >
-            {t("confirm")}
+            {t("booking.confirm")}
           </button>
           <div className='mt-6 text-center'>
             <button
@@ -230,7 +260,7 @@ export default function BookingSummaryPage() {
               onClick={() => router.push("/booking")}
               className='bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded text-sm font-semibold'
             >
-              {t("edit")}
+              {t("booking.edit")}
             </button>
 
             <button
@@ -238,7 +268,7 @@ export default function BookingSummaryPage() {
               onClick={() => router.push("/")}
               className='block mt-3 underline text-green-700 hover:text-green-900 text-sm'
             >
-              {t("backToHome")}
+              {t("booking.backToHome")}
             </button>
           </div>
         </form>
