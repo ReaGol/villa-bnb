@@ -60,10 +60,10 @@ export default function AdminPage() {
 
   return (
     <main className='p-6'>
-      <div className="flex justify-end mb-4">
+      <div className='flex justify-end mb-4'>
         <Link
-          href="/"
-          className="inline-block bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 transition"
+          href='/'
+          className='inline-block bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 transition'
         >
           חזרה לדף הבית
         </Link>
