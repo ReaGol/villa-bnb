@@ -7,7 +7,7 @@ export function getRecommendationSchema(locale: string) {
   return z.object({
     name: z
       .string()
-      .min(2, messages.fullNameRequired) // לפחות 2 תווים
+      .min(2, messages.fullNameRequired) 
       .max(100),
     stars: z.number().min(1, messages.starsRequired).max(5),
     message: z

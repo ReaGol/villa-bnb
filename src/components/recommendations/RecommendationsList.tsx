@@ -17,6 +17,7 @@ export type Recommendation = {
 
 export default function RecommendationsList() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [visibleCount, setVisibleCount] = useState(6);
   const [showForm, setShowForm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,14 +61,12 @@ export default function RecommendationsList() {
     setIsSubmitting(false);
   };
 
-  if (recommendations.length === 0 && !showForm && !showSuccess && !isSubmitting) {
-    return (
-      <div className="flex justify-center items-center min-h-[200px]">
-        <span className="loader mr-2"></span>
-        <span>{locale === "he" ? "טוען המלצות..." : "Loading recommendations..."}</span>
-      </div>
-    );
-  }
+  const skeletons = Array.from({ length: 3 }, (_, i) => (
+    <div
+      key={i}
+      className='bg-gray-200 rounded shadow animate-pulse h-40'
+    ></div>
+  ));
 
   return (
     <div className='space-y-6 relative'>
@@ -82,19 +81,36 @@ export default function RecommendationsList() {
           onClick={() => setShowForm((prev) => !prev)}
           className='bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-semibold'
         >
-          {showForm ? (locale === "he" ? "ביטול" : "Cancel") : (locale === "he" ? "הוסיפו המלצה" : "Add Recommendation")}
+          {showForm
+            ? locale === "he"
+              ? "ביטול"
+              : "Cancel"
+            : locale === "he"
+            ? "הוסיפו המלצה"
+            : "Add Recommendation"}
         </button>
       </div>
 
       {showForm && <RecommendationForm onAdd={handleAdd} />}
 
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
-        {recommendations.map((rec, index) => (
+        {recommendations.length === 0 && skeletons}
+
+        {recommendations.slice(0, visibleCount).map((rec, index) => (
           <RecommendationCard key={rec._id || index} recommendation={rec} />
         ))}
       </div>
+
+      {visibleCount < recommendations.length && (
+        <div className='flex justify-center'>
+          <button
+            onClick={() => setVisibleCount((prev) => prev + 6)}
+            className='mt-4 bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded font-semibold'
+          >
+            {locale === "he" ? "טען עוד המלצות" : "Load More"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
-
-

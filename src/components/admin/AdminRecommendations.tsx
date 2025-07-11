@@ -34,7 +34,6 @@ export default function AdminRecommendations() {
     });
 
     if (res.ok) {
-    //   setRecs((prev) => prev.filter((r) => r._id !== id));
       fetchRecs();
     } else {
       alert("שגיאה במחיקה");

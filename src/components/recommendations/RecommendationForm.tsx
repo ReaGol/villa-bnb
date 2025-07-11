@@ -41,7 +41,7 @@ export default function RecommendationForm({ onAdd }: Props) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: undefined }); // clear error when user types
+    setErrors({ ...errors, [e.target.name]: undefined }); 
   };
 
   const handleSubmit = (e: React.FormEvent) => {
