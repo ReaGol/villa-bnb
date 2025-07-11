@@ -8,23 +8,19 @@ export default async function HomePage() {
   return (
     <main className='flex flex-col items-center text-center p-8 space-y-16'>
       <section
-        className='w-full bg-cover bg-center relative h-[60vh] flex items-center justify-center'
+        className='w-full bg-cover bg-center relative min-h-[60vh] flex items-start justify-center pt-4 md:pt-24'
         style={{
           backgroundImage: `url(${
             process.env.NEXT_PUBLIC_BASE_PATH || ""
           }/villa.jpg)`,
         }}
       >
-        <div className='text-white p-8 rounded top-2 transform -translate-y-40'>
-          <h1 className='text-4xl md:text-6xl font-bold mb-4'>
+        <div className='text-white p-4 rounded text-center'>
+          <h1 className='text-3xl md:text-5xl font-bold mb-4'>
             {t("heroTitle")}
           </h1>
           <p className='text-lg md:text-2xl'>{t("heroSubtitle")}</p>
         </div>
-      </section>
-
-      <section className='max-w-3xl space-y-4'>
-        <p>{t("description")}</p>
       </section>
 
       <section>
