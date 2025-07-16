@@ -38,7 +38,7 @@ export default function RecommendationCard({
     <div className='bg-white p-6 rounded shadow flex flex-col justify-between h-full'>
       <div className='flex justify-between items-center mb-4'>
         <p
-          className={`font-bold text-green-700 text-lg ${
+          className={`font-bold text-sky-700 text-lg ${
             locale === "he" ? "text-right" : "text-left"
           }`}
         >
@@ -59,7 +59,7 @@ export default function RecommendationCard({
         {isLong && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className='text-green-600 hover:underline font-semibold'
+            className='text-sky-600 hover:underline font-semibold'
           >
             {isExpanded ? t("readLess") : t("readMore")}
           </button>

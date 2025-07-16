@@ -64,7 +64,7 @@ export default function GalleryPage() {
               }
               className={`py-2 px-4 rounded ${
                 selectedCategory === category
-                  ? "bg-green-600 text-white"
+                  ? "bg-sky-600 text-white"
                   : "bg-gray-200 hover:bg-gray-300"
               }`}
             >

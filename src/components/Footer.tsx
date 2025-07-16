@@ -18,7 +18,7 @@ export default function Footer() {
             target='_blank'
             rel='noopener noreferrer'
             aria-label='Facebook'
-            className='hover:text-green-600 transition-colors'
+            className='hover:text-sky-600 transition-colors'
           >
             <FaFacebook />
           </Link>
@@ -27,7 +27,7 @@ export default function Footer() {
             target='_blank'
             rel='noopener noreferrer'
             aria-label='Instagram'
-            className='hover:text-green-600 transition-colors'
+            className='hover:text-sky-600 transition-colors'
           >
             <FaInstagram />
           </Link>

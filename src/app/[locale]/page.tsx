@@ -25,7 +25,7 @@ export default async function HomePage() {
 
       <section>
         <Link href='/booking'>
-          <button className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold'>
+          <button className='bg-sky-600 hover:bg-sky-700 text-white py-3 px-6 rounded text-lg font-semibold'>
             {t("checkAvailability")}
           </button>
         </Link>

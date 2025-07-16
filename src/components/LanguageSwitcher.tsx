@@ -30,7 +30,7 @@ export default function LanguageSwitcher() {
   return (
     <button
       onClick={toggleLocale}
-      className='bg-green-600 text-white px-2 py-2 rounded shadow hover:bg-green-700 transition'
+      className='bg-sky-600 text-white px-2 py-2 rounded shadow hover:bg-sky-700 transition'
       disabled={isPending}
       aria-label='Switch language'
     >

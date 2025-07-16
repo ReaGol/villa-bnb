@@ -35,7 +35,7 @@ export default function BookingConfirmationPage() {
   return (
     <main className='flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-10'>
       <div className='bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg border'>
-        <h1 className='text-3xl font-bold text-green-700 mb-6 text-center'>
+        <h1 className='text-3xl font-bold text-sky-700 mb-6 text-center'>
           {t("title")}
         </h1>
 
@@ -112,7 +112,7 @@ export default function BookingConfirmationPage() {
         <div className='mt-8 text-center'>
           <button
             onClick={() => router.push("/")}
-            className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold'
+            className='bg-sky-600 hover:bg-sky-700 text-white py-3 px-6 rounded text-lg font-semibold'
           >
             {t("backToHome", { default: "Back to Home" })}
           </button>

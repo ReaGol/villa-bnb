@@ -253,7 +253,7 @@ export default function BookingForm() {
       </div>
       <button
         type='submit'
-        className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
+        className='bg-sky-600 hover:bg-sky-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
       >
         {t("booking.form.submit")}
       </button>

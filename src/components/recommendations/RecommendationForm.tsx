@@ -85,7 +85,7 @@ export default function RecommendationForm({ onAdd }: Props) {
       onSubmit={handleSubmit}
       className='bg-white p-6 rounded shadow space-y-4 max-w-xl mx-auto'
     >
-      <h2 className='text-2xl font-bold text-green-700 text-center'>
+      <h2 className='text-2xl font-bold text-sky-700 text-center'>
         {t("secondaryTitle")}
       </h2>
 
@@ -137,7 +137,7 @@ export default function RecommendationForm({ onAdd }: Props) {
 
       <button
         type='submit'
-        className='bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded w-full'
+        className='bg-sky-600 hover:bg-sky-700 text-white py-2 px-4 rounded w-full'
       >
         {t("submit")}
       </button>

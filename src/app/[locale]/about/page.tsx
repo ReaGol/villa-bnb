@@ -11,7 +11,7 @@ export default function AboutPage() {
         <h1 className='text-4xl font-bold mb-4'>{t("title")}</h1>
       </section>
       <section className='mt-0 mb-10'>
-        <h2 className='text-2xl font-bold text-green-700 mb-4 text-center'>
+        <h2 className='text-2xl font-bold text-sky-700 mb-4 text-center'>
           {subtitles[5]}
         </h2>
         <div className='w-full h-72'>
@@ -28,7 +28,7 @@ export default function AboutPage() {
       <section className='space-y-8 leading-relaxed text-gray-800'>
         {subtitles.slice(0, 5).map((subtitle, i) => (
           <div key={i}>
-            <h2 className='text-2xl font-semibold text-green-700 mb-2'>
+            <h2 className='text-2xl font-semibold text-sky-700 mb-2'>
               {subtitle}
             </h2>
             <p>{descriptions[i]}</p>

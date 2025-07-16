@@ -38,7 +38,7 @@ export default function Navbar() {
             />
           </div>
           <span
-            className='text-xl text-green-700 md:text-2xl font-bold mr-2 rtl:mr-2'
+            className='text-xl text-sky-700 md:text-2xl font-bold mr-2 rtl:mr-2'
             style={{ fontFamily: "var(--font-great-vibes)" }}
           >
             Dream Vacation in Greece
@@ -51,7 +51,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className='text-gray-700 hover:text-green-700 font-medium'
+                className='text-gray-700 hover:text-sky-700 font-medium'
               >
                 {link.name}
               </Link>
@@ -74,7 +74,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className='block text-gray-700 hover:text-green-700 font-medium'
+              className='block text-gray-700 hover:text-sky-700 font-medium'
               onClick={() => setMenuOpen(false)}
             >
               {link.name}

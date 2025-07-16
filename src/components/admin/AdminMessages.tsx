@@ -29,7 +29,7 @@ export default function AdminMessages() {
 
   return (
     <div className='overflow-y-auto max-h-[550px] min-h-[300px] w-full px-2'>
-      <h2 className='text-xl font-semibold mb-4 text-center text-green-700'>
+      <h2 className='text-xl font-semibold mb-4 text-center text-sky-700'>
         הודעות מ'צור קשר'
       </h2>
       <ul className='space-y-4'>

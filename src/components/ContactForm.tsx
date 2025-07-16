@@ -173,13 +173,13 @@ export default function ContactForm() {
 
       <button
         type='submit'
-        className='bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
+        className='bg-sky-600 hover:bg-sky-700 text-white py-3 px-6 rounded text-lg font-semibold w-full'
       >
         {t("contact.form.submit")}
       </button>
 
       {isSubmitted && (
-        <p className='text-green-600 mt-4 text-center'>
+        <p className='text-sky-600 mt-4 text-center'>
           {t("contact.successMessage")}
         </p>
       )}

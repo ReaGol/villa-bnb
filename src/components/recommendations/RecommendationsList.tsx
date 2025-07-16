@@ -71,7 +71,7 @@ export default function RecommendationsList() {
   return (
     <div className='space-y-6 relative'>
       {showSuccess && (
-        <div className='fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded shadow z-50 transition-opacity'>
+        <div className='fixed top-4 right-4 bg-sky-600 text-white px-6 py-3 rounded shadow z-50 transition-opacity'>
           ✅ ההמלצה נשלחה בהצלחה! תודה רבה 💚
         </div>
       )}
@@ -79,7 +79,7 @@ export default function RecommendationsList() {
       <div className='flex justify-center'>
         <button
           onClick={() => setShowForm((prev) => !prev)}
-          className='bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded font-semibold'
+          className='bg-sky-600 hover:bg-sky-700 text-white py-2 px-4 rounded font-semibold'
         >
           {showForm
             ? locale === "he"

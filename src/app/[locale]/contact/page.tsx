@@ -32,18 +32,18 @@ export default function ContactPage() {
               key={phone}
               className={`flex items-center gap-2 ${locale === "he" ? "flex-row-reverse" : ""}`}
             >
-              <FaPhoneAlt className='text-green-600' />
+              <FaPhoneAlt className='text-sky-600' />
               <a
                 href={`tel:${telNumber(phone)}`}
                 dir="ltr"
-                className="underline hover:text-green-700"
+                className="underline hover:text-sky-700"
               >
                 {displayNumber(phone)}
               </a>
             </div>
           ))}
           <div className='mt-2'>
-            ✉️ <a href={`mailto:${email}`} className="underline hover:text-green-700">{email}</a>
+            ✉️ <a href={`mailto:${email}`} className="underline hover:text-sky-700">{email}</a>
           </div>
         </div>
       </div>

@@ -70,7 +70,7 @@ export default function AdminPage() {
       <div className='flex justify-between mb-4'>
         <Link
           href='/'
-          className='inline-block bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 transition'
+          className='inline-block bg-sky-600 text-white px-4 py-2 rounded shadow hover:bg-sky-700 transition'
         >
           חזרה לדף הבית
         </Link>
@@ -81,7 +81,7 @@ export default function AdminPage() {
           התנתק
         </Link>
       </div>
-      <h1 className='text-3xl font-bold mb-6 text-center text-green-700'>
+      <h1 className='text-3xl font-bold mb-6 text-center text-sky-700'>
         ברוך הבא לפאנל הניהול
       </h1>
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>

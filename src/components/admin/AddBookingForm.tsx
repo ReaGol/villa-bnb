@@ -70,7 +70,7 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
 
   return (
     <div className='text-center'>
-      <h2 className='text-xl font-semibold mb-4 text-green-700'>
+      <h2 className='text-xl font-semibold mb-4 text-sky-700'>
         הוספת הזמנה חדשה
       </h2>
 
@@ -164,7 +164,7 @@ export default function AddBookingForm({ onAddBooking }: AddBookingFormProps) {
 
         <button
           type='submit'
-          className='bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded font-semibold w-full'
+          className='bg-sky-600 hover:bg-sky-700 text-white py-2 px-6 rounded font-semibold w-full'
           disabled={isSubmitting}
         >
           {isSubmitting ? "מוסיף..." : "הוסף הזמנה"}

@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
         onSubmit={handleSubmit(onSubmit)}
         className='bg-white p-8 rounded shadow max-w-sm w-full space-y-4'
       >
-        <h1 className='text-2xl font-bold text-center mb-4 text-green-700'>
+        <h1 className='text-2xl font-bold text-center mb-4 text-sky-700'>
           התחברות מנהל
         </h1>
 
@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
 
         <button
           type='submit'
-          className='w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded font-semibold'
+          className='w-full bg-sky-600 hover:bg-sky-700 text-white py-2 rounded font-semibold'
         >
           התחבר
         </button>

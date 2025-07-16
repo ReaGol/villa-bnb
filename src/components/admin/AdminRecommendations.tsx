@@ -51,7 +51,7 @@ export default function AdminRecommendations() {
 
   return (
     <div className='bg-white border p-6 rounded shadow max-h-[500px] overflow-y-auto'>
-      <h2 className='text-xl font-bold text-center mb-4 text-green-700'>
+      <h2 className='text-xl font-bold text-center mb-4 text-sky-700'>
         המלצות אורחים
       </h2>
       <ul className='space-y-4'>

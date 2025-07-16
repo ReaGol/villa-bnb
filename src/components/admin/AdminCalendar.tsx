@@ -46,7 +46,7 @@ export default function AdminCalendar() {
 
   return (
     <div>
-      <h2 className='text-xl font-semibold mb-4 text-center text-green-700'>
+      <h2 className='text-xl font-semibold mb-4 text-center text-sky-700'>
         לוח השנה
       </h2>
       <DatePicker
